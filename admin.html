@@ -87,11 +87,12 @@
                     </select>
                 </div>
                 <div class="overflow-x-auto">
-                    <table class="w-full min-w-[760px] text-sm">
+                    <table class="w-full min-w-[900px] text-sm">
                         <thead>
                             <tr class="border-b border-stone-200 text-left text-xs uppercase tracking-wide text-stone-500">
                                 <th class="py-3 pr-4">Pesanan</th>
                                 <th class="py-3 px-4">Pelanggan</th>
+                                <th class="py-3 px-4">Kontak WhatsApp</th>
                                 <th class="py-3 px-4">Detail</th>
                                 <th class="py-3 px-4">Pembayaran</th>
                                 <th class="py-3 px-4">Total</th>
@@ -119,6 +120,12 @@
             })[char]);
         }
 
+        function whatsappNumber(phone) {
+            const digits = String(phone || '').replace(/\D/g, '');
+            if (!digits) return '';
+            return digits.startsWith('0') ? `62${digits.slice(1)}` : digits;
+        }
+
         function formatDateTime(value) {
             return new Date(value).toLocaleString('id-ID', {
                 day: 'numeric',
@@ -140,7 +147,7 @@
                     changed = true;
                 }
                 const deadline = tx.paymentDeadline || tx.pickupDeadline;
-                const isWaiting = ['Menunggu Pembayaran', 'Menunggu Pengambilan'].includes(tx.status);
+                const isWaiting = ['Menghubungi Customer', 'Menunggu Pembayaran', 'Menunggu Pengambilan'].includes(tx.status);
                 if (tx.type === 'Beli Perlengkapan' && deadline && isWaiting && new Date(deadline).getTime() <= now) {
                     tx.status = 'Dibatalkan';
                     tx.cancelReason = tx.paymentDeadline
@@ -195,7 +202,7 @@
             const type = document.getElementById('filter-type').value;
             const filtered = transactions.filter(tx => {
                 const matchesType = type === 'Semua' || tx.type === type;
-                const haystack = `${tx.id} ${tx.customer} ${tx.itemsSummary} ${tx.type}`.toLowerCase();
+                const haystack = `${tx.id} ${tx.customer} ${tx.phone || ''} ${tx.itemsSummary} ${tx.type}`.toLowerCase();
                 return matchesType && (!search || haystack.includes(search));
             });
 
@@ -210,12 +217,12 @@
 
             const body = document.getElementById('orders-body');
             if (filtered.length === 0) {
-                body.innerHTML = '<tr><td colspan="7" class="py-12 text-center text-stone-500">Belum ada pesanan yang cocok.</td></tr>';
+                body.innerHTML = '<tr><td colspan="8" class="py-12 text-center text-stone-500">Belum ada pesanan yang cocok.</td></tr>';
                 return;
             }
 
             body.innerHTML = filtered.map((tx, index) => {
-                const status = tx.status || 'Dikonfirmasi';
+                const status = tx.status || (tx.paymentMethod === 'Transfer Bank' ? 'Menunggu Pembayaran' : 'Menghubungi Customer');
                 const statusClass = status === 'Selesai'
                     ? 'bg-emerald-50 text-emerald-700'
                     : status === 'Diproses'
@@ -233,6 +240,9 @@
                             <strong class="block">${escapeHtml(tx.customer)}</strong>
                             <span class="text-xs text-stone-500">${escapeHtml(tx.date)}</span>
                         </td>
+                        <td class="py-4 px-4 whitespace-nowrap">
+                            ${tx.phone ? `<a class="inline-flex items-center gap-1 text-emerald-700 hover:underline font-semibold" href="https://wa.me/${whatsappNumber(tx.phone)}" target="_blank" rel="noopener noreferrer">💬 ${escapeHtml(tx.phone)}</a>` : '<span class="text-stone-400">Belum ada nomor</span>'}
+                        </td>
                         <td class="py-4 px-4 max-w-xs">
                             <span class="block font-medium">${escapeHtml(tx.itemsSummary)}</span>
                             <span class="block mt-1 text-xs text-stone-500">${escapeHtml(tx.method)} — ${escapeHtml(tx.address)}</span>
@@ -242,7 +252,7 @@
                         <td class="py-4 px-4 font-bold text-peach-600">${formatRupiah(tx.total)}</td>
                         <td class="py-4 px-4">
                             <select onchange="updateStatus('${escapeHtml(tx.id)}', this.value)" class="px-2.5 py-2 rounded-lg border border-stone-200 ${statusClass}">
-                                ${['Menunggu Pembayaran', 'Menunggu Pengambilan', 'Dikonfirmasi', 'Diproses', 'Selesai', 'Dibatalkan'].map(option =>
+                                ${['Menghubungi Customer', 'Menunggu Pembayaran', 'Menunggu Pengambilan', 'Dikonfirmasi', 'Diproses', 'Selesai', 'Dibatalkan'].map(option =>
                                     `<option value="${option}" ${status === option ? 'selected' : ''}>${option}</option>`
                                 ).join('')}
                             </select>

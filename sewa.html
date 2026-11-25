@@ -346,6 +346,10 @@
                                 <input type="text" id="sewa-name" placeholder="Nama lengkap Anda" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-sm focus:outline-none focus:border-sage-600">
                             </div>
                             <div>
+                                <label for="sewa-phone" class="block text-xs font-semibold text-stone-700 mb-1">WhatsApp / Telepon <span class="text-red-500">*</span></label>
+                                <input type="tel" id="sewa-phone" placeholder="Contoh: 081234567890" autocomplete="tel" inputmode="tel" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-sm focus:outline-none focus:border-sage-600">
+                            </div>
+                            <div>
                                 <label for="sewa-start-date" class="block text-xs font-semibold text-stone-700 mb-1">Tanggal Mulai Sewa <span class="text-red-500">*</span></label>
                                 <input type="date" id="sewa-start-date" onchange="updateSewaSummary()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-sm focus:outline-none focus:border-sage-600">
                             </div>
@@ -479,6 +483,7 @@
                     </div>
 
                     <input type="text" id="cart-buyer-name" placeholder="Nama penerima / pemesan..." class="w-full px-3 py-2 rounded-xl border border-stone-300 bg-white text-xs">
+                    <input type="tel" id="cart-buyer-phone" placeholder="Nomor WhatsApp / telepon yang bisa dihubungi" autocomplete="tel" inputmode="tel" class="w-full px-3 py-2 rounded-xl border border-stone-300 bg-white text-xs">
                 </div>
 
                 <div class="space-y-1 text-xs pt-1 border-t border-stone-200">
@@ -734,6 +739,11 @@
             return 'Rp ' + Number(num || 0).toLocaleString('id-ID');
         }
 
+        function isValidContactNumber(phone) {
+            const digits = phone.replace(/\D/g, '');
+            return /^[+\d\s()-]+$/.test(phone) && digits.length >= 8 && digits.length <= 15;
+        }
+
         function getTodayISO() {
             const d = new Date();
             return d.toISOString().split('T')[0];
@@ -915,12 +925,18 @@
         function checkoutCart() {
             if (cart.length === 0) return;
             const buyerName = document.getElementById('cart-buyer-name').value.trim();
+            const buyerPhone = document.getElementById('cart-buyer-phone').value.trim();
             const deliveryMode = document.querySelector('input[name="cart_delivery"]:checked').value;
             const address = document.getElementById('cart-address').value.trim();
 
             if (!buyerName) {
                 showToast('Mohon isi nama pemesan terlebih dahulu', '⚠️');
                 document.getElementById('cart-buyer-name').focus();
+                return;
+            }
+            if (!isValidContactNumber(buyerPhone)) {
+                showToast('Masukkan nomor WhatsApp/telepon yang valid', '⚠️');
+                document.getElementById('cart-buyer-phone').focus();
                 return;
             }
             if (deliveryMode === 'kirim' && !address) {
@@ -938,6 +954,7 @@
                 type: 'Beli Perlengkapan',
                 date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
                 customer: buyerName,
+                phone: buyerPhone,
                 method: deliveryMode === 'kirim' ? 'Kirim ke Alamat' : 'Pick Up di Toko',
                 address: deliveryMode === 'kirim' ? address : 'Ambil di Toko Bloomy Label',
                 itemsSummary: cart.map(i => `${i.name} (${i.qty}x)`).join(', '),
@@ -1089,6 +1106,7 @@
                 : 'Transfer Bank';
             const addressVal = document.getElementById('sewa-address').value.trim();
             const renterName = document.getElementById('sewa-name').value.trim();
+            const renterPhone = document.getElementById('sewa-phone').value.trim();
             const startDateVal = document.getElementById('sewa-start-date').value;
 
             // Validasi Wajib Alamat jika Kirim
@@ -1101,6 +1119,11 @@
             if (!renterName) {
                 showToast('Mohon isi Nama Penyewa terlebih dahulu', '⚠️');
                 document.getElementById('sewa-name').focus();
+                return;
+            }
+            if (!isValidContactNumber(renterPhone)) {
+                showToast('Masukkan nomor WhatsApp/telepon yang valid', '⚠️');
+                document.getElementById('sewa-phone').focus();
                 return;
             }
             if (!startDateVal) {
@@ -1116,7 +1139,10 @@
                 id: 'INV-SEWA-' + Math.floor(1000 + Math.random() * 9000),
                 type: 'Sewa Perlengkapan',
                 date: `${formatIndoDate(startDateVal)} s/d ${addDaysISO(startDateVal, durInfo.days)}`,
+                createdAt: new Date().toISOString(),
+                status: paymentMethod === 'COD' ? 'Menghubungi Customer' : 'Menunggu Pembayaran',
                 customer: renterName,
+                phone: renterPhone,
                 method: deliveryMode === 'kirim' ? 'Kirim ke Alamat' : 'Pick Up (Ambil di Toko)',
                 paymentMethod,
                 address: deliveryMode === 'kirim' ? addressVal : 'Ambil di Toko SiKecil Gear',
@@ -1248,6 +1274,8 @@
                 id: 'INV-LND-' + Math.floor(1000 + Math.random() * 9000),
                 type: 'Layanan Laundry',
                 date: formatIndoDate(dateVal),
+                createdAt: new Date().toISOString(),
+                status: paymentMethod === 'COD' ? 'Menghubungi Customer' : 'Menunggu Pembayaran',
                 customer: custName,
                 method: deliveryMode === 'pickup_delivery' ? 'Antar-Jemput Kurir (PP)' : 'Drop-Off ke Toko',
                 address: deliveryMode === 'pickup_delivery' ? addressVal : 'Drop-Off Workshop SiKecil Gear',
@@ -1285,6 +1313,10 @@
                 <div class="flex justify-between gap-2">
                     <span class="text-stone-500">Pemesan</span>
                     <span class="font-bold text-ink text-right">${tx.customer}</span>
+                </div>
+                <div class="flex justify-between gap-2">
+                    <span class="text-stone-500">WhatsApp / Telepon</span>
+                    <span class="font-semibold text-ink text-right">${tx.phone || '-'}</span>
                 </div>
                 <div class="flex justify-between gap-2">
                     <span class="text-stone-500">Tanggal / Periode</span>
@@ -1351,6 +1383,7 @@
                         <p class="text-xs sm:text-sm font-bold text-ink">${tx.itemsSummary}</p>
                         <div class="text-xs text-stone-600 space-y-0.5">
                             <div>👤 <strong>${tx.customer}</strong> • 📅 ${tx.date}</div>
+                            ${tx.phone ? `<div>📱 WhatsApp / Telepon: <strong>${tx.phone}</strong></div>` : ''}
                             <div>🚚 <strong>${tx.method}</strong> — ${tx.address}</div>
                             <div>💳 Pembayaran: <strong>${tx.paymentMethod || 'Belum tercatat'}</strong></div>
                         </div>

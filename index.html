@@ -298,6 +298,7 @@
                         </div>
                     </div>
                     <input type="text" id="cart-buyer-name" placeholder="Nama penerima / pemesan..." class="w-full px-3 py-2 rounded-xl border border-stone-300 bg-white text-xs">
+                    <input type="tel" id="cart-buyer-phone" placeholder="Nomor WhatsApp / telepon yang bisa dihubungi" autocomplete="tel" inputmode="tel" class="w-full px-3 py-2 rounded-xl border border-stone-300 bg-white text-xs">
                 </div>
 
                 <div class="space-y-1 text-xs pt-1 border-t border-stone-200">
@@ -555,6 +556,11 @@
             return 'Rp ' + Number(num || 0).toLocaleString('id-ID');
         }
 
+        function isValidContactNumber(phone) {
+            const digits = phone.replace(/\D/g, '');
+            return /^[+\d\s()-]+$/.test(phone) && digits.length >= 8 && digits.length <= 15;
+        }
+
         function getTodayISO() {
             const d = new Date();
             return d.toISOString().split('T')[0];
@@ -587,7 +593,7 @@
                     changed = true;
                 }
                 const deadline = tx.paymentDeadline || tx.pickupDeadline;
-                const isWaiting = ['Menunggu Pembayaran', 'Menunggu Pengambilan'].includes(tx.status);
+                const isWaiting = ['Menghubungi Customer', 'Menunggu Pembayaran', 'Menunggu Pengambilan'].includes(tx.status);
                 if (tx.type === 'Beli Perlengkapan' && deadline && isWaiting && new Date(deadline).getTime() <= now) {
                     tx.status = 'Dibatalkan';
                     tx.cancelReason = tx.paymentDeadline
@@ -811,6 +817,7 @@
         function checkoutCart() {
             if (cart.length === 0) return;
             const buyerName = document.getElementById('cart-buyer-name').value.trim();
+            const buyerPhone = document.getElementById('cart-buyer-phone').value.trim();
             const deliveryMode = document.querySelector('input[name="cart_delivery"]:checked').value;
             const paymentMethod = deliveryMode === 'pickup'
                 ? document.querySelector('input[name="cart_payment"]:checked').value
@@ -820,6 +827,11 @@
             if (!buyerName) {
                 showToast('Mohon isi nama pemesan terlebih dahulu', '⚠️');
                 document.getElementById('cart-buyer-name').focus();
+                return;
+            }
+            if (!isValidContactNumber(buyerPhone)) {
+                showToast('Masukkan nomor WhatsApp/telepon yang valid', '⚠️');
+                document.getElementById('cart-buyer-phone').focus();
                 return;
             }
             if (deliveryMode === 'kirim' && !address) {
@@ -853,8 +865,9 @@
                 createdAt: new Date().toISOString(),
                 paymentDeadline,
                 pickupDeadline,
-                status: isCod ? 'Menunggu Pengambilan' : 'Menunggu Pembayaran',
+                status: isCod ? 'Menghubungi Customer' : 'Menunggu Pembayaran',
                 customer: buyerName,
+                phone: buyerPhone,
                 method: deliveryMode === 'kirim' ? 'Kirim ke Alamat' : 'Pick Up di Toko',
                 paymentMethod,
                 address: deliveryMode === 'kirim' ? address : 'Ambil di Toko Bloomy Label',
@@ -1202,6 +1215,10 @@
                     <span class="font-bold text-ink text-right">${tx.customer}</span>
                 </div>
                 <div class="flex justify-between gap-2">
+                    <span class="text-stone-500">WhatsApp / Telepon</span>
+                    <span class="font-semibold text-ink text-right">${tx.phone || '-'}</span>
+                </div>
+                <div class="flex justify-between gap-2">
                     <span class="text-stone-500">Tanggal / Periode</span>
                     <span class="font-semibold text-ink text-right">${tx.date}</span>
                 </div>
@@ -1272,6 +1289,7 @@
                         <p class="text-xs sm:text-sm font-bold text-ink">${tx.itemsSummary}</p>
                         <div class="text-xs text-stone-600 space-y-0.5">
                             <div>👤 <strong>${tx.customer}</strong> • 📅 ${tx.date}</div>
+                            ${tx.phone ? `<div>📱 WhatsApp / Telepon: <strong>${tx.phone}</strong></div>` : ''}
                             <div>🚚 <strong>${tx.method}</strong> — ${tx.address}</div>
                             <div>💳 Pembayaran: <strong>${tx.paymentMethod || 'Belum tercatat'}</strong></div>
                             ${(tx.paymentDeadline || tx.pickupDeadline) ? `<div>⏰ ${tx.paymentDeadline ? 'Bayar sebelum' : 'Ambil sebelum'}: <strong>${formatIndoDateTime(tx.paymentDeadline || tx.pickupDeadline)}</strong></div>` : ''}
