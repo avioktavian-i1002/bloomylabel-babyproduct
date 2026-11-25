@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloomy Label - Jual Perlengkapan Bayi</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        cream: '#FAF7F4',
+                        peach: {
+                            50: '#FFF5F1',
+                            100: '#FFE8DF',
+                            200: '#FFD0BE',
+                            500: '#E8734A',
+                            600: '#D35B31',
+                        },
+                        sage: {
+                            50: '#F2F7F4',
+                            100: '#E1ECE5',
+                            500: '#4F7A65',
+                            600: '#3C614F',
+                            700: '#2D4A3C',
+                        },
+                        ink: '#232629'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom smooth transitions & scrollbar */
+        body {
+            background-color: #FAF7F4;
+            color: #232629;
+        }
+        .tab-active {
+            background-color: #3C614F;
+            color: #FFFFFF;
+            box-shadow: 0 4px 12px rgba(60, 97, 79, 0.22);
+        }
+        .card-hover {
+            transition: transform 0.22s ease, box-shadow 0.22s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px -8px rgba(35, 38, 41, 0.12);
+        }
+        /* Hide scrollbar for horizontal category pills on mobile */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- ==================== NAVBAR ==================== -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-stone-200/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20 gap-3">
+                <!-- Brand Logo -->
+                <div class="flex items-center gap-2.5 cursor-pointer" onclick="switchTab('beli')">
+                    <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-peach-500 to-peach-600 flex items-center justify-center text-white shadow-sm">
+                        <!-- Stroller / Baby Icon SVG -->
+                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="9" cy="19" r="2"/>
+                            <circle cx="17" cy="19" r="2"/>
+                            <path d="M5 6h2l2.5 9h8.5l2-6H8.5"/>
+                            <path d="M13 9V5a4 4 0 0 1 4 4"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="font-display font-extrabold text-lg sm:text-xl tracking-tight text-ink block leading-none">Bloomy<span class="text-peach-500">Label</span></span>
+                        <span class="text-[11px] text-stone-500 font-medium hidden sm:block">Jual • Sewa • Laundry Bayi</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation Tabs -->
+                <nav class="hidden md:flex items-center bg-stone-100 p-1.5 rounded-2xl gap-1">
+                    <button id="nav-beli" onclick="switchTab('beli')" class="nav-tab tab-active px-4 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-2">
+                        <span>🛍️</span> Beli Perlengkapan
+                    </button>
+                    <button id="nav-sewa" onclick="switchTab('sewa')" class="nav-tab text-stone-600 hover:text-ink px-4 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-2">
+                        <span>📅</span> Sewa Perlengkapan
+                    </button>
+                    <button id="nav-laundry" onclick="switchTab('laundry')" class="nav-tab text-stone-600 hover:text-ink px-4 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-2">
+                        <span>🫧</span> Layanan Laundry
+                    </button>
+                </nav>
+
+                <!-- Right Actions: History & Cart -->
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <a href="admin.html" class="p-2.5 sm:px-3.5 sm:py-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 font-semibold text-sm transition flex items-center gap-2 border border-stone-200" title="Panel Admin">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 15.5A3.5 3.5 0 1012 8a3.5 3.5 0 000 7.5z"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.4 15a1.7 1.7 0 00.34 1.88l.06.06-1.86 1.86-.06-.06A1.7 1.7 0 0016 18.4a1.7 1.7 0 00-1 .6l-.1.1V21h-5.8v-.1l-.1-.1a1.7 1.7 0 00-1-.6 1.7 1.7 0 00-1.88.34l-.06.06-1.86-1.86.06-.06A1.7 1.7 0 004.6 17a1.7 1.7 0 00-.6-1l-.1-.1H2v-5.8h.1l.1-.1a1.7 1.7 0 00.6-1 1.7 1.7 0 00-.34-1.88l-.06-.06L4.26 5.2l.06.06A1.7 1.7 0 006.2 5.6a1.7 1.7 0 001-.6l.1-.1V3h5.8v.1l.1.1a1.7 1.7 0 001 .6 1.7 1.7 0 001.88-.34l.06-.06 1.86 1.86-.06.06A1.7 1.7 0 0019.4 7a1.7 1.7 0 00.6 1l.1.1H22v5.8h-.1l-.1.1a1.7 1.7 0 00-.6 1z"/>
+                        </svg>
+                        <span class="hidden sm:inline">Admin</span>
+                    </a>
+                    <button onclick="openHistoryModal()" class="relative p-2.5 sm:px-3.5 sm:py-2 rounded-xl bg-sage-50 hover:bg-sage-100 text-sage-700 font-semibold text-sm transition flex items-center gap-2 border border-sage-100" title="Riwayat Transaksi">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
+                        </svg>
+                        <span class="hidden sm:inline">Riwayat</span>
+                        <span id="history-badge" class="hidden bg-sage-600 text-white text-[11px] font-bold px-1.5 py-0.5 rounded-full">0</span>
+                    </button>
+
+                    <button onclick="toggleCartDrawer(true)" class="relative p-2.5 sm:px-4 sm:py-2 rounded-xl bg-peach-500 hover:bg-peach-600 text-white font-semibold text-sm transition flex items-center gap-2 shadow-sm">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                        <span class="hidden sm:inline">Keranjang</span>
+                        <span id="cart-badge" class="bg-white text-peach-600 text-xs font-extrabold px-2 py-0.5 rounded-full">0</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation Tabs -->
+            <div class="flex md:hidden items-center gap-2 pb-3 overflow-x-auto no-scrollbar">
+                <button id="m-nav-beli" onclick="switchTab('beli')" class="m-nav-tab tab-active flex-1 whitespace-nowrap px-3.5 py-2 rounded-xl text-xs font-semibold transition-all">
+                    🛍️ Beli Baru
+                </button>
+                <button id="m-nav-sewa" onclick="switchTab('sewa')" class="m-nav-tab bg-stone-100 text-stone-600 flex-1 whitespace-nowrap px-3.5 py-2 rounded-xl text-xs font-semibold transition-all">
+                    📅 Sewa Unit
+                </button>
+                <button id="m-nav-laundry" onclick="switchTab('laundry')" class="m-nav-tab bg-stone-100 text-stone-600 flex-1 whitespace-nowrap px-3.5 py-2 rounded-xl text-xs font-semibold transition-all">
+                    🫧 Laundry Bayi
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ==================== HERO BANNER ==================== -->
+    <section class="bg-gradient-to-r from-sage-50 via-cream to-peach-50 border-b border-stone-200/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                <div class="max-w-2xl">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-sage-200 text-sage-700 text-xs font-semibold mb-3 shadow-2xs">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        Steril UV-C • Food-Grade Detergent • Siap Pakai
+                    </div>
+                    <h1 class="font-display text-2xl sm:text-3xl lg:text-4xl font-extrabold text-ink tracking-tight leading-tight">
+                        Solusi Lengkap Kebutuhan <span class="text-sage-600">Perlengkapan Si Kecil</span>
+                    </h1>
+                    <p class="mt-2 text-sm sm:text-base text-stone-600 leading-relaxed">
+                        Belanja perlengkapan bayi original bergaransi, sewa praktis mingguan hingga 1 bulan penuh, atau rawat kebersihannya lewat layanan deep-cleaning antibakteri kami.
+                    </p>
+                </div>
+
+                <!-- 3 Layanan Quick Pills -->
+                <div class="grid grid-cols-3 gap-2.5 sm:gap-3 shrink-0">
+                    <div onclick="switchTab('beli')" class="cursor-pointer bg-white p-3 sm:p-4 rounded-2xl border border-stone-200/80 hover:border-peach-500 transition text-center shadow-2xs">
+                        <div class="text-xl sm:text-2xl mb-1">🛍️</div>
+                        <div class="font-bold text-xs sm:text-sm text-ink">Beli Baru</div>
+                        <div class="text-[11px] text-stone-500">4 Kategori</div>
+                    </div>
+                    <div onclick="switchTab('sewa')" class="cursor-pointer bg-white p-3 sm:p-4 rounded-2xl border border-stone-200/80 hover:border-sage-500 transition text-center shadow-2xs">
+                        <div class="text-xl sm:text-2xl mb-1">📅</div>
+                        <div class="font-bold text-xs sm:text-sm text-ink">Sewa Unit</div>
+                        <div class="text-[11px] text-stone-500">Max 1 Bulan</div>
+                    </div>
+                    <div onclick="switchTab('laundry')" class="cursor-pointer bg-white p-3 sm:p-4 rounded-2xl border border-stone-200/80 hover:border-sky-500 transition text-center shadow-2xs">
+                        <div class="text-xl sm:text-2xl mb-1">🫧</div>
+                        <div class="font-bold text-xs sm:text-sm text-ink">Laundry</div>
+                        <div class="text-[11px] text-stone-500">Antar-Jemput</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+        <section id="section-beli" class="tab-section space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="font-display text-xl sm:text-2xl font-bold text-ink">Katalog Perlengkapan Bayi Baru</h2>
+                    <p class="text-sm text-stone-500">Produk 100% baru, original, dan berstandar keamanan internasional.</p>
+                </div>
+
+                <!-- Filter Kategori E-Commerce -->
+                <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1" id="beli-filters">
+                    <button onclick="filterBeli('Semua')" data-cat="Semua" class="beli-filter-btn bg-ink text-white px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition whitespace-nowrap">
+                        Semua (<span id="beli-total-count">8</span>)
+                    </button>
+                    <button onclick="filterBeli('Stroller')" data-cat="Stroller" class="beli-filter-btn bg-white text-stone-600 hover:bg-stone-100 border border-stone-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition whitespace-nowrap">
+                        Stroller
+                    </button>
+                    <button onclick="filterBeli('Carseat')" data-cat="Carseat" class="beli-filter-btn bg-white text-stone-600 hover:bg-stone-100 border border-stone-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition whitespace-nowrap">
+                        Carseat
+                    </button>
+                    <button onclick="filterBeli('Babyswing')" data-cat="Babyswing" class="beli-filter-btn bg-white text-stone-600 hover:bg-stone-100 border border-stone-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition whitespace-nowrap">
+                        Babyswing
+                    </button>
+                    <button onclick="filterBeli('Gendongan')" data-cat="Gendongan" class="beli-filter-btn bg-white text-stone-600 hover:bg-stone-100 border border-stone-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition whitespace-nowrap">
+                        Gendongan
+                    </button>
+                </div>
+            </div>
+
+            <!-- Grid Produk E-Commerce -->
+            <div id="beli-product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <!-- Diisi otomatis via JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="bg-white border-t border-stone-200 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-500">
+            <div class="flex items-center gap-2">
+                <span class="font-display font-bold text-sm text-ink">Bloomy<span class="text-peach-500">Label</span></span>
+                <span>•</span>
+                <span>Jual, Sewa & Laundry Perlengkapan Bayi Higienis</span>
+            </div>
+            <div>© 2026 Bloomy Label Indonesia. Semua hak dilindungi.</div>
+        </div>
+    </footer>
+
+    <!-- ==================== CART DRAWER (E-COMMERCE) ==================== -->
+    <div id="cart-drawer-overlay" class="fixed inset-0 z-50 hidden">
+        <div onclick="toggleCartDrawer(false)" class="absolute inset-0 bg-black/40 backdrop-blur-xs transition-opacity"></div>
+        <aside class="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl flex flex-col">
+            <!-- Header Drawer -->
+            <div class="px-5 py-4 border-b border-stone-200 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="text-xl">🛍️</span>
+                    <h3 class="font-display font-bold text-lg text-ink">Keranjang Belanja</h3>
+                </div>
+                <button onclick="toggleCartDrawer(false)" class="p-2 rounded-xl hover:bg-stone-100 text-stone-500">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Cart Items List -->
+            <div id="cart-items-container" class="flex-1 overflow-y-auto p-5 space-y-3.5">
+                <!-- Diisi otomatis via JS -->
+            </div>
+
+            <!-- Checkout Form & Total di Bawah Drawer -->
+            <div id="cart-checkout-footer" class="border-t border-stone-200 bg-cream p-5 space-y-3.5 hidden">
+                <div class="space-y-2.5">
+                    <div class="grid grid-cols-2 gap-2">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="cart_delivery" value="pickup" class="peer sr-only" checked onchange="handleCartDeliveryChange('pickup')">
+                            <div class="p-2.5 rounded-xl border border-stone-300 bg-white peer-checked:border-peach-500 peer-checked:bg-peach-50 text-center text-xs font-bold">
+                                🏪 Pick Up (Rp 0)
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="cart_delivery" value="kirim" class="peer sr-only" onchange="handleCartDeliveryChange('kirim')">
+                            <div class="p-2.5 rounded-xl border border-stone-300 bg-white peer-checked:border-peach-500 peer-checked:bg-peach-50 text-center text-xs font-bold">
+                                🚚 Kirim (+Ongkir)
+                            </div>
+                        </label>
+                    </div>
+
+                    <div id="cart-address-fields" class="hidden space-y-2">
+                        <select id="cart-zone" onchange="renderCart()" class="w-full px-3 py-2 rounded-xl border border-stone-300 bg-white text-xs">
+                            <option value="15000">Zona 1 — Dalam Kota (Rp 15.000)</option>
+                            <option value="25000">Zona 2 — Pinggir Kota (Rp 25.000)</option>
+                            <option value="35000">Zona 3 — Luar Kota (Rp 35.000)</option>
+                        </select>
+                        <textarea id="cart-address" rows="2" placeholder="Alamat lengkap pengiriman pesanan..." class="w-full px-3 py-2 rounded-xl border border-stone-300 bg-white text-xs"></textarea>
+                    </div>
+
+                    <div id="cart-payment-options" class="space-y-2">
+                        <p class="text-xs font-semibold text-stone-700">Pembayaran untuk Pick Up</p>
+                        <div class="grid grid-cols-2 gap-2">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="cart_payment" value="COD" class="peer sr-only" checked>
+                                <span class="block p-2.5 rounded-xl border border-stone-300 bg-white peer-checked:border-peach-500 peer-checked:bg-peach-50 text-center text-xs font-bold">💵 COD</span>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="cart_payment" value="Transfer Bank" class="peer sr-only">
+                                <span class="block p-2.5 rounded-xl border border-stone-300 bg-white peer-checked:border-peach-500 peer-checked:bg-peach-50 text-center text-xs font-bold">🏦 Transfer</span>
+                            </label>
+                        </div>
+                    </div>
+                    <input type="text" id="cart-buyer-name" placeholder="Nama penerima / pemesan..." class="w-full px-3 py-2 rounded-xl border border-stone-300 bg-white text-xs">
+                </div>
+
+                <div class="space-y-1 text-xs pt-1 border-t border-stone-200">
+                    <div class="flex justify-between text-stone-600">
+                        <span>Subtotal Produk</span>
+                        <span id="cart-subtotal" class="font-semibold text-ink">Rp 0</span>
+                    </div>
+                    <div class="flex justify-between text-stone-600">
+                        <span>Ongkos Kirim</span>
+                        <span id="cart-shipping" class="font-semibold text-emerald-600">Rp 0</span>
+                    </div>
+                    <div class="flex justify-between text-base font-extrabold text-ink pt-1.5">
+                        <span>Total Bayar</span>
+                        <span id="cart-grand-total" class="text-peach-600">Rp 0</span>
+                    </div>
+                </div>
+
+                <button onclick="checkoutCart()" class="w-full py-3 rounded-xl bg-peach-500 hover:bg-peach-600 text-white font-bold text-sm transition shadow-sm">
+                    Selesaikan Pesanan Belanja
+                </button>
+            </div>
+        </aside>
+    </div>
+
+    <!-- ==================== MODAL STRUK / BUKTI TRANSAKSI ==================== -->
+    <div id="receipt-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div onclick="closeReceiptModal()" class="absolute inset-0 bg-black/50 backdrop-blur-xs"></div>
+        <div class="relative bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
+            <div class="text-center">
+                <div class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-3 text-2xl">
+                    ✅
+                </div>
+                <span id="receipt-type-badge" class="inline-block px-3 py-1 rounded-full bg-sage-50 text-sage-700 text-xs font-bold mb-1">Booking Sewa Berhasil</span>
+                <h3 id="receipt-heading" class="font-display text-xl font-extrabold text-ink">Transaksi Dikonfirmasi!</h3>
+                <p id="receipt-id" class="text-xs text-stone-500 font-mono mt-0.5">INV-2026-0001</p>
+            </div>
+
+            <div id="receipt-body" class="bg-cream rounded-2xl p-4 space-y-2.5 text-xs sm:text-sm border border-stone-200/80">
+                <!-- Diisi otomatis via JS -->
+            </div>
+
+            <div class="flex gap-2.5 pt-1">
+                <button onclick="closeReceiptModal(); openHistoryModal();" class="flex-1 py-2.5 px-3 rounded-xl bg-sage-50 hover:bg-sage-100 text-sage-700 font-bold text-xs sm:text-sm transition">
+                    Lihat Semua Riwayat
+                </button>
+                <button onclick="closeReceiptModal()" class="flex-1 py-2.5 px-3 rounded-xl bg-ink hover:bg-stone-800 text-white font-bold text-xs sm:text-sm transition">
+                    Tutup
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL RIWAYAT TRANSAKSI ==================== -->
+    <div id="history-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div onclick="closeHistoryModal()" class="absolute inset-0 bg-black/50 backdrop-blur-xs"></div>
+        <div class="relative bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl flex flex-col max-h-[85vh]">
+            <div class="flex items-center justify-between pb-4 border-b border-stone-200">
+                <div>
+                    <h3 class="font-display text-xl font-extrabold text-ink">Riwayat Transaksi & Booking</h3>
+                    <p class="text-xs text-stone-500">Semua riwayat Beli, Sewa, dan Laundry tersimpan otomatis di sesi ini.</p>
+                </div>
+                <button onclick="closeHistoryModal()" class="p-2 rounded-xl hover:bg-stone-100 text-stone-500">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div id="history-list-container" class="flex-1 overflow-y-auto py-4 space-y-3">
+                <!-- Diisi otomatis via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== TOAST NOTIFICATION ==================== -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 hidden transform transition-all duration-300">
+        <div class="bg-ink text-white px-4 py-3 rounded-2xl shadow-lg flex items-center gap-2.5 text-sm font-medium">
+            <span id="toast-icon">✨</span>
+            <span id="toast-msg">Berhasil ditambahkan!</span>
+        </div>
+    </div>
+
+    <!-- ==================== JAVASCRIPT APPLICATION LOGIC ==================== -->
+    <script>
+        // --- 1. DATA KATALOG PRODUK ---
+
+        // Kategori Beli Baru (Wajib 4 kategori: Stroller, Carseat, Babyswing, Gendongan)
+        const buyProducts = [
+            {
+                id: 'buy-1',
+                name: 'BabyElle Aero Cabin Stroller',
+                category: 'Stroller',
+                price: 1850000,
+                badge: 'Terlaris',
+                desc: 'Stroller lipat ringkas cabin-size, kanopi UPF 50+, suspensi empuk 4 roda.',
+                bg: 'from-peach-100 to-amber-50',
+                svg: `<svg class="w-20 h-20 text-peach-600" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="22" cy="50" r="5"/><circle cx="46" cy="50" r="5"/><path d="M10 16h6l7 24h23l5-16H21"/><path d="M34 24V12a12 12 0 0 1 12 12"/></svg>`
+            },
+            {
+                id: 'buy-2',
+                name: 'Joie Versatrax Reversible Stroller',
+                category: 'Stroller',
+                price: 3450000,
+                badge: 'Premium',
+                desc: 'Kursi hadap ibu & depan, posisi rebah penuh untuk newborn hingga 22 kg.',
+                bg: 'from-stone-200 to-stone-100',
+                svg: `<svg class="w-20 h-20 text-stone-700" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="20" cy="50" r="5"/><circle cx="46" cy="50" r="5"/><path d="M8 14h7l7 26h24l6-18H20"/><path d="M32 22c0-7 6-11 13-11v11"/></svg>`
+            },
+            {
+                id: 'buy-3',
+                name: 'Nuna Pipa Next ISOFIX Carseat',
+                category: 'Carseat',
+                price: 2950000,
+                badge: 'Standar ECE R129',
+                desc: 'Perlindungan benturan samping (SIP), busa memory foam lembut & instalasi ISOFIX.',
+                bg: 'from-sage-100 to-emerald-50',
+                svg: `<svg class="w-20 h-20 text-sage-700" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 14c0-3 3-5 6-5h6c4 0 7 3 7 7l3 18h10c3 0 5 2 5 5v5H16c-3 0-5-2-5-5V24c0-5 3-10 7-10z"/><path d="M24 24v12M32 24v12M20 30h16"/><path d="M14 48h38"/></svg>`
+            },
+            {
+                id: 'buy-4',
+                name: 'Chicco Fit4 4-in-1 Convertible Carseat',
+                category: 'Carseat',
+                price: 3650000,
+                badge: '0–10 Tahun',
+                desc: 'Tumbuh bersama si kecil dari bayi baru lahir (rear-facing) hingga booster seat.',
+                bg: 'from-sky-100 to-blue-50',
+                svg: `<svg class="w-20 h-20 text-sky-700" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12h12c4 0 7 3 7 7l2 17h9c3 0 5 2 5 5v4H15c-2 0-4-2-4-4V22c0-6 4-10 9-10z"/><circle cx="28" cy="28" r="4"/><path d="M14 49h36"/></svg>`
+            },
+            {
+                id: 'buy-5',
+                name: 'Nuna Leaf Grow Babyswing',
+                category: 'Babyswing',
+                price: 2750000,
+                badge: 'Tanpa Listrik',
+                desc: 'Ayunan lembut alami dengan satu dorongan, kain katun organik bersertifikat Oeko-Tex.',
+                bg: 'from-amber-100 to-orange-50',
+                svg: `<svg class="w-20 h-20 text-amber-700" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="32" cy="26" rx="18" ry="11" transform="rotate(-12 32 26)"/><path d="M32 37v13"/><path d="M18 50h28"/></svg>`
+            },
+            {
+                id: 'buy-6',
+                name: 'Cocolatte Snuggli Electric Babyswing',
+                category: 'Babyswing',
+                price: 1490000,
+                badge: '5 Kecepatan + Musik',
+                desc: 'Dilengkapi remote control, timer otomatis, melodi pengantar tidur, dan kelambu nyamuk.',
+                bg: 'from-rose-100 to-peach-50',
+                svg: `<svg class="w-20 h-20 text-rose-600" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 52L24 14h16l10 38"/><path d="M20 34c4 6 20 6 24 0"/><path d="M27 14v8M37 14v8"/></svg>`
+            },
+            {
+                id: 'buy-7',
+                name: 'Ergobaby Omni Breeze Baby Carrier',
+                category: 'Gendongan',
+                price: 2150000,
+                badge: 'M-Shape Ergonomis',
+                desc: 'Gendongan SoftFlex Mesh super adem, mendukung 4 posisi gendong sejak newborn.',
+                bg: 'from-teal-100 to-sage-50',
+                svg: `<svg class="w-20 h-20 text-teal-700" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12l6 10h12l6-10"/><path d="M18 22h28l-3 22H21L18 22z"/><path d="M16 44h32v6H16z"/><circle cx="32" cy="17" r="4"/></svg>`
+            },
+            {
+                id: 'buy-8',
+                name: 'Dialogue Hipseat Carrier Series',
+                category: 'Gendongan',
+                price: 485000,
+                badge: 'Hemat & Nyaman',
+                desc: 'Dudukan hipseat anti-selip menjaga postur tulang pinggul bayi dan punggung orang tua.',
+                bg: 'from-indigo-100 to-purple-50',
+                svg: `<svg class="w-20 h-20 text-indigo-700" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 14v10h20V14"/><rect x="18" y="24" width="28" height="16" rx="4"/><path d="M14 40h36v8H14z"/></svg>`
+            }
+        ];
+
+        // Kategori Sewa (HANYA 2 jenis: Stroller & Carseat)
+        const rentUnits = [
+            {
+                id: 'rent-1',
+                name: 'Bugaboo Butterfly Cabin Stroller',
+                category: 'Stroller',
+                rates: { '1w': 160000, '2w': 290000, '3w': 410000, '1m': 500000 },
+                spec: 'Ringan 7.3 kg • Cabin size • Cocok traveling',
+                icon: '🛒'
+            },
+            {
+                id: 'rent-2',
+                name: 'Stokke YOYO2 6+ Stroller',
+                category: 'Stroller',
+                rates: { '1w': 185000, '2w': 340000, '3w': 475000, '1m': 580000 },
+                spec: 'Lipat satu tangan • Suspensi Hytrel elastomer',
+                icon: '🛒'
+            },
+            {
+                id: 'rent-3',
+                name: 'Joie i-Spin 360 ISOFIX Carseat',
+                category: 'Carseat',
+                rates: { '1w': 150000, '2w': 275000, '3w': 390000, '1m': 480000 },
+                spec: 'Putar 360° • Newborn s/d 19 kg • ISOFIX',
+                icon: '💺'
+            },
+            {
+                id: 'rent-4',
+                name: 'Maxi-Cosi CabrioFix Infant Carseat',
+                category: 'Carseat',
+                rates: { '1w': 120000, '2w': 220000, '3w': 310000, '1m': 380000 },
+                spec: '0–13 kg • Ringan mudah dipindah ke stroller',
+                icon: '💺'
+            }
+        ];
+
+        const durationMeta = {
+            '1w': { label: '1 Minggu', days: 7 },
+            '2w': { label: '2 Minggu', days: 14 },
+            '3w': { label: '3 Minggu', days: 21 },
+            '1m': { label: '1 Bulan (Maks.)', days: 30 }
+        };
+
+        // Kategori Laundry (HANYA 3 jenis: Stroller, Carseat, Babyswing)
+        const laundryCatalog = [
+            {
+                id: 'lnd-stroller',
+                name: 'Deep Clean Stroller',
+                category: 'Stroller',
+                price: 95000,
+                desc: 'Cuci rangka, roda, kanopi, kain dudukan, anti-tungau & sterilisasi UV-C.',
+                icon: '🛒',
+                qty: 1
+            },
+            {
+                id: 'lnd-carseat',
+                name: 'Deep Clean Carseat',
+                category: 'Carseat',
+                price: 85000,
+                desc: 'Bongkar cover kain, cuci detergen organik hipoalergenik, steam & UV-C.',
+                icon: '💺',
+                qty: 0
+            },
+            {
+                id: 'lnd-babyswing',
+                name: 'Deep Clean Babyswing',
+                category: 'Babyswing',
+                price: 80000,
+                desc: 'Pembersihan bantalan kursi, sabuk pengaman, mainan gantung & UV-C.',
+                icon: '🎐',
+                qty: 0
+            }
+        ];
+
+        // --- 2. APPLICATION STATE ---
+        let cart = [];
+        let selectedRentUnitId = rentUnits[0].id;
+        let currentSewaFilter = 'Semua';
+        let transactions = JSON.parse(localStorage.getItem('BloomyLabel_transactions') || '[]');
+        const purchaseStockPerProduct = 1;
+        const pickupWindowMs = 24 * 60 * 60 * 1000;
+
+        // --- 3. HELPER FORMAT RUPIAH & TANGGAL ---
+        function formatRupiah(num) {
+            return 'Rp ' + Number(num || 0).toLocaleString('id-ID');
+        }
+
+        function getTodayISO() {
+            const d = new Date();
+            return d.toISOString().split('T')[0];
+        }
+
+        function formatIndoDate(isoStr) {
+            if (!isoStr) return '-';
+            const options = { day: 'numeric', month: 'short', year: 'numeric' };
+            return new Date(isoStr + 'T00:00:00').toLocaleDateString('id-ID', options);
+        }
+
+        function formatIndoDateTime(isoStr) {
+            return new Date(isoStr).toLocaleString('id-ID', {
+                day: 'numeric',
+                month: 'short',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function expirePurchaseOrders() {
+            const now = Date.now();
+            let changed = false;
+            transactions.forEach(tx => {
+                if (tx.type === 'Beli Perlengkapan' && tx.paymentMethod === 'Transfer Bank' && !tx.paymentDeadline && tx.pickupDeadline) {
+                    tx.paymentDeadline = tx.pickupDeadline;
+                    delete tx.pickupDeadline;
+                    if (tx.status === 'Menunggu Pengambilan') tx.status = 'Menunggu Pembayaran';
+                    changed = true;
+                }
+                const deadline = tx.paymentDeadline || tx.pickupDeadline;
+                const isWaiting = ['Menunggu Pembayaran', 'Menunggu Pengambilan'].includes(tx.status);
+                if (tx.type === 'Beli Perlengkapan' && deadline && isWaiting && new Date(deadline).getTime() <= now) {
+                    tx.status = 'Dibatalkan';
+                    tx.cancelReason = tx.paymentDeadline
+                        ? 'Pembayaran tidak diterima dalam 24 jam'
+                        : 'Pesanan tidak diambil dalam 24 jam';
+                    changed = true;
+                }
+            });
+            if (changed) {
+                localStorage.setItem('BloomyLabel_transactions', JSON.stringify(transactions));
+            }
+            return changed;
+        }
+
+        function getReservedProductQty(productId) {
+            return transactions.reduce((total, tx) => {
+                if (tx.type === 'Beli Perlengkapan' && tx.status !== 'Dibatalkan') {
+                    const reservedItem = tx.reservedItems?.find(item => item.id === productId);
+                    return total + (reservedItem?.qty || 0);
+                }
+                return total;
+            }, 0);
+        }
+
+        function getAvailableProductQty(productId) {
+            return Math.max(0, purchaseStockPerProduct - getReservedProductQty(productId));
+        }
+
+        function addDaysISO(isoStr, days) {
+            if (!isoStr) return '-';
+            const d = new Date(isoStr + 'T00:00:00');
+            d.setDate(d.getDate() + days);
+            return d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+
+        function showToast(msg, icon = '✨') {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-msg').textContent = msg;
+            document.getElementById('toast-icon').textContent = icon;
+            toast.classList.remove('hidden');
+            clearTimeout(window._toastTimer);
+            window._toastTimer = setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 2800);
+        }
+
+        function switchTab(tabName) {
+            const pages = {
+                beli: 'index.html',
+                sewa: 'sewa.html',
+                laundry: 'laundry.html'
+            };
+            window.location.href = pages[tabName] || 'index.html';
+        }
+
+        // --- 5. TAB 1: E-COMMERCE (BELI PERLENGKAPAN) ---
+        function renderBuyProducts(category = 'Semua') {
+            const grid = document.getElementById('beli-product-grid');
+            document.getElementById('beli-total-count').textContent = buyProducts
+                .filter(product => getAvailableProductQty(product.id) > 0).length;
+            const categoryProducts = category === 'Semua'
+                ? buyProducts
+                : buyProducts.filter(p => p.category === category);
+            const filtered = categoryProducts.filter(product => getAvailableProductQty(product.id) > 0);
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full rounded-2xl border border-stone-200 bg-white p-8 text-center">
+                        <p class="font-display font-bold text-ink">Produk sedang habis atau dipesan</p>
+                        <p class="mt-1 text-sm text-stone-500">Silakan cek kembali nanti, produk akan tersedia lagi jika pesanan dibatalkan.</p>
+                    </div>
+                `;
+                return;
+            }
+            grid.innerHTML = filtered.map(prod => `
+                <article class="bg-white rounded-2xl border border-stone-200/90 overflow-hidden flex flex-col card-hover">
+                    <div class="relative h-44 bg-gradient-to-br ${prod.bg} flex items-center justify-center p-4">
+                        <span class="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-white/90 text-ink text-[11px] font-bold shadow-2xs">
+                            ${prod.category}
+                        </span>
+                        <span class="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-sage-600 text-white text-[10px] font-bold">
+                            ${prod.badge}
+                        </span>
+                        ${prod.svg}
+                    </div>
+                    <div class="p-4 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center gap-1.5 text-[11px] text-emerald-700 font-semibold mb-1">
+                                <span>● Kondisi: Baru</span>
+                            </div>
+                            <h3 class="font-display font-bold text-base text-ink leading-snug">${prod.name}</h3>
+                            <p class="text-xs text-stone-500 mt-1.5 line-clamp-2 leading-relaxed">${prod.desc}</p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-stone-100">
+                            <div class="font-display font-extrabold text-lg text-peach-600 mb-2.5">
+                                ${formatRupiah(prod.price)}
+                            </div>
+                            <button onclick="addToCart('${prod.id}')" class="w-full py-2.5 px-3 rounded-xl bg-ink hover:bg-peach-500 text-white text-xs font-bold transition flex items-center justify-center gap-1.5">
+                                <span>+ Tambah ke Keranjang</span>
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        function filterBeli(category) {
+            document.querySelectorAll('.beli-filter-btn').forEach(btn => {
+                if (btn.dataset.cat === category) {
+                    btn.className = 'beli-filter-btn bg-ink text-white px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition whitespace-nowrap';
+                } else {
+                    btn.className = 'beli-filter-btn bg-white text-stone-600 hover:bg-stone-100 border border-stone-200 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition whitespace-nowrap';
+                }
+            });
+            renderBuyProducts(category);
+        }
+
+        // --- 6. CART LOGIC ---
+        function addToCart(productId) {
+            const product = buyProducts.find(p => p.id === productId);
+            if (!product) return;
+
+            const existing = cart.find(item => item.id === productId);
+            if ((existing?.qty || 0) >= getAvailableProductQty(productId)) {
+                showToast('Stok produk ini sedang habis atau dipesan', '⚠️');
+                renderBuyProducts();
+                return;
+            }
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+            renderCart();
+            showToast(`${product.name} masuk keranjang`, '🛍️');
+        }
+
+        function updateCartQty(productId, delta) {
+            const idx = cart.findIndex(item => item.id === productId);
+            if (idx === -1) return;
+
+            if (delta > 0 && cart[idx].qty >= getAvailableProductQty(productId)) {
+                showToast('Tidak ada stok tambahan untuk produk ini', '⚠️');
+                return;
+            }
+            cart[idx].qty += delta;
+            if (cart[idx].qty <= 0) {
+                cart.splice(idx, 1);
+            }
+            renderCart();
+        }
+
+        function toggleCartDrawer(open) {
+            const drawer = document.getElementById('cart-drawer-overlay');
+            if (open) {
+                renderCart();
+                drawer.classList.remove('hidden');
+            } else {
+                drawer.classList.add('hidden');
+            }
+        }
+
+        function handleCartDeliveryChange(mode) {
+            const addrFields = document.getElementById('cart-address-fields');
+            const paymentOptions = document.getElementById('cart-payment-options');
+            if (mode === 'kirim') {
+                addrFields.classList.remove('hidden');
+                paymentOptions.classList.add('hidden');
+                document.querySelector('input[name="cart_payment"][value="Transfer Bank"]').checked = true;
+            } else {
+                addrFields.classList.add('hidden');
+                paymentOptions.classList.remove('hidden');
+            }
+            renderCart();
+        }
+
+        function renderCart() {
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById('cart-badge').textContent = totalItems;
+
+            const container = document.getElementById('cart-items-container');
+            const footer = document.getElementById('cart-checkout-footer');
+
+            if (cart.length === 0) {
+                footer.classList.add('hidden');
+                container.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-center py-12">
+                        <div class="text-4xl mb-3">🛒</div>
+                        <h4 class="font-display font-bold text-base text-ink">Keranjang Masih Kosong</h4>
+                        <p class="text-xs text-stone-500 mt-1 max-w-xs">Pilih perlengkapan bayi baru di tab Beli Perlengkapan untuk mulai berbelanja.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            footer.classList.remove('hidden');
+            container.innerHTML = cart.map(item => `
+                <div class="flex items-center justify-between gap-3 p-3 rounded-2xl bg-cream border border-stone-200/80">
+                    <div class="min-w-0 flex-1">
+                        <span class="text-[10px] font-bold uppercase text-sage-600">${item.category}</span>
+                        <h4 class="font-bold text-sm text-ink truncate">${item.name}</h4>
+                        <div class="text-xs font-bold text-peach-600 mt-0.5">${formatRupiah(item.price)}</div>
+                    </div>
+                    <div class="flex items-center gap-2 bg-white border border-stone-200 rounded-xl px-2 py-1">
+                        <button onclick="updateCartQty('${item.id}', -1)" class="w-6 h-6 rounded-lg hover:bg-stone-100 font-bold text-stone-600">-</button>
+                        <span class="text-xs font-bold w-5 text-center">${item.qty}</span>
+                        <button onclick="updateCartQty('${item.id}', 1)" ${item.qty >= getAvailableProductQty(item.id) ? 'disabled' : ''} class="w-6 h-6 rounded-lg hover:bg-stone-100 font-bold text-stone-600 disabled:opacity-40 disabled:cursor-not-allowed">+</button>
+                    </div>
+                </div>
+            `).join('');
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const deliveryMode = document.querySelector('input[name="cart_delivery"]:checked')?.value || 'pickup';
+            const shipping = deliveryMode === 'kirim' ? Number(document.getElementById('cart-zone').value) : 0;
+
+            document.getElementById('cart-subtotal').textContent = formatRupiah(subtotal);
+            document.getElementById('cart-shipping').textContent = shipping === 0 ? 'Rp 0 (Pick Up)' : formatRupiah(shipping);
+            document.getElementById('cart-grand-total').textContent = formatRupiah(subtotal + shipping);
+        }
+
+        function checkoutCart() {
+            if (cart.length === 0) return;
+            const buyerName = document.getElementById('cart-buyer-name').value.trim();
+            const deliveryMode = document.querySelector('input[name="cart_delivery"]:checked').value;
+            const paymentMethod = deliveryMode === 'pickup'
+                ? document.querySelector('input[name="cart_payment"]:checked').value
+                : 'Transfer Bank';
+            const address = document.getElementById('cart-address').value.trim();
+
+            if (!buyerName) {
+                showToast('Mohon isi nama pemesan terlebih dahulu', '⚠️');
+                document.getElementById('cart-buyer-name').focus();
+                return;
+            }
+            if (deliveryMode === 'kirim' && !address) {
+                showToast('Alamat lengkap wajib diisi untuk pengiriman', '⚠️');
+                document.getElementById('cart-address').focus();
+                return;
+            }
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const shipping = deliveryMode === 'kirim' ? Number(document.getElementById('cart-zone').value) : 0;
+            const grandTotal = subtotal + shipping;
+            const unavailableItem = cart.find(item => item.qty > getAvailableProductQty(item.id));
+            if (unavailableItem) {
+                showToast(`${unavailableItem.name} sudah tidak tersedia. Perbarui keranjang Anda.`, '⚠️');
+                renderBuyProducts();
+                renderCart();
+                return;
+            }
+
+            const deadline = new Date(Date.now() + pickupWindowMs).toISOString();
+            const isCod = paymentMethod === 'COD';
+            const paymentDeadline = isCod ? null : deadline;
+            const pickupDeadline = isCod && deliveryMode === 'pickup'
+                ? deadline
+                : null;
+
+            const tx = {
+                id: 'INV-BELI-' + Math.floor(1000 + Math.random() * 9000),
+                type: 'Beli Perlengkapan',
+                date: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }),
+                createdAt: new Date().toISOString(),
+                paymentDeadline,
+                pickupDeadline,
+                status: isCod ? 'Menunggu Pengambilan' : 'Menunggu Pembayaran',
+                customer: buyerName,
+                method: deliveryMode === 'kirim' ? 'Kirim ke Alamat' : 'Pick Up di Toko',
+                paymentMethod,
+                address: deliveryMode === 'kirim' ? address : 'Ambil di Toko Bloomy Label',
+                itemsSummary: cart.map(i => `${i.name} (${i.qty}x)`).join(', '),
+                reservedItems: cart.map(i => ({ id: i.id, qty: i.qty })),
+                subtotal,
+                shipping,
+                total: grandTotal
+            };
+
+            saveTransaction(tx);
+            cart = [];
+            renderCart();
+            toggleCartDrawer(false);
+            openReceiptModal(tx);
+        }
+
+        // --- 7. TAB 2: SEWA PERLENGKAPAN (STROLLER & CARSEAT ONLY) ---
+        function renderSewaUnits() {
+            const container = document.getElementById('sewa-unit-list');
+            const filtered = currentSewaFilter === 'Semua'
+                ? rentUnits
+                : rentUnits.filter(u => u.category === currentSewaFilter);
+
+            container.innerHTML = filtered.map(unit => {
+                const isSelected = unit.id === selectedRentUnitId;
+                return `
+                    <div onclick="selectRentUnit('${unit.id}')" class="cursor-pointer p-4 rounded-xl border-2 transition ${isSelected ? 'border-sage-600 bg-sage-50/70' : 'border-stone-200 hover:border-sage-300 bg-white'}">
+                        <div class="flex items-start justify-between gap-2">
+                            <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-bold ${unit.category === 'Stroller' ? 'bg-peach-100 text-peach-600' : 'bg-sky-100 text-sky-700'}">
+                                ${unit.icon} ${unit.category}
+                            </span>
+                            <span class="w-4 h-4 rounded-full border-2 flex items-center justify-center ${isSelected ? 'border-sage-600' : 'border-stone-300'}">
+                                ${isSelected ? '<span class="w-2 h-2 rounded-full bg-sage-600"></span>' : ''}
+                            </span>
+                        </div>
+                        <h4 class="font-display font-bold text-sm text-ink mt-2">${unit.name}</h4>
+                        <p class="text-[11px] text-stone-500 mt-0.5">${unit.spec}</p>
+                        <div class="mt-3 pt-2 border-t border-stone-200/70 flex items-center justify-between text-xs">
+                            <span class="text-stone-500">Mulai <strong class="text-ink">${formatRupiah(unit.rates['1w'])}</strong>/mgg</span>
+                            <span class="text-sage-700 font-bold">${formatRupiah(unit.rates['1m'])}/bln</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterSewaUnit(cat) {
+            currentSewaFilter = cat;
+            ['all', 'stroller', 'carseat'].forEach(key => {
+                const btn = document.getElementById(`sewa-cat-${key}`);
+                btn.className = 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-stone-100 text-stone-600';
+            });
+            const activeKey = cat === 'Semua' ? 'all' : cat.toLowerCase();
+            document.getElementById(`sewa-cat-${activeKey}`).className = 'px-2.5 py-1 rounded-lg text-xs font-semibold bg-sage-600 text-white';
+
+            // Pastikan unit terpilih sesuai filter
+            const filtered = cat === 'Semua' ? rentUnits : rentUnits.filter(u => u.category === cat);
+            if (filtered.length > 0 && !filtered.some(u => u.id === selectedRentUnitId)) {
+                selectedRentUnitId = filtered[0].id;
+            }
+            renderSewaUnits();
+            updateSewaSummary();
+        }
+
+        function selectRentUnit(unitId) {
+            selectedRentUnitId = unitId;
+            renderSewaUnits();
+            updateSewaSummary();
+        }
+
+        function handleSewaDeliveryChange(mode) {
+            const box = document.getElementById('sewa-address-box');
+            const err = document.getElementById('sewa-address-error');
+            if (mode === 'kirim') {
+                box.classList.remove('hidden');
+            } else {
+                box.classList.add('hidden');
+                err.classList.add('hidden');
+            }
+            updateSewaSummary();
+        }
+
+        function updateSewaSummary() {
+            const unit = rentUnits.find(u => u.id === selectedRentUnitId) || rentUnits[0];
+
+            // Update harga di 4 kartu pilihan durasi (1w, 2w, 3w, 1m)
+            document.getElementById('dur-price-1w').textContent = formatRupiah(unit.rates['1w']);
+            document.getElementById('dur-price-2w').textContent = formatRupiah(unit.rates['2w']);
+            document.getElementById('dur-price-3w').textContent = formatRupiah(unit.rates['3w']);
+            document.getElementById('dur-price-1m').textContent = formatRupiah(unit.rates['1m']);
+
+            const durKey = document.querySelector('input[name="sewa_duration"]:checked')?.value || '1w';
+            const durInfo = durationMeta[durKey];
+            const rentCost = unit.rates[durKey];
+
+            const deliveryMode = document.querySelector('input[name="sewa_delivery"]:checked')?.value || 'pickup';
+            const shippingCost = deliveryMode === 'kirim' ? Number(document.getElementById('sewa-zone').value) : 0;
+            const addressVal = document.getElementById('sewa-address').value.trim();
+
+            if (deliveryMode === 'kirim' && addressVal.length > 0) {
+                document.getElementById('sewa-address-error').classList.add('hidden');
+            }
+
+            const startDateVal = document.getElementById('sewa-start-date').value;
+            const endDateText = startDateVal ? ` s/d ${addDaysISO(startDateVal, durInfo.days)}` : '';
+
+            // Update panel ringkasan
+            document.getElementById('summary-sewa-icon').textContent = unit.icon;
+            document.getElementById('summary-sewa-cat').textContent = `Kategori: ${unit.category}`;
+            document.getElementById('summary-sewa-name').textContent = unit.name;
+            document.getElementById('summary-sewa-period').textContent = `Durasi: ${durInfo.label} (${durInfo.days} Hari)`;
+
+            document.getElementById('summary-sewa-method').textContent = deliveryMode === 'kirim' ? 'Kirim ke Alamat' : 'Pick Up di Toko';
+
+            const addrRow = document.getElementById('summary-sewa-address-row');
+            if (deliveryMode === 'kirim') {
+                addrRow.classList.remove('hidden');
+                document.getElementById('summary-sewa-address').textContent = addressVal || 'Belum diisi...';
+            } else {
+                addrRow.classList.add('hidden');
+            }
+
+            document.getElementById('summary-sewa-date').textContent = startDateVal ? `${formatIndoDate(startDateVal)}${endDateText}` : '-';
+            document.getElementById('summary-sewa-dur-label').textContent = durInfo.label;
+            document.getElementById('summary-sewa-rent-cost').textContent = formatRupiah(rentCost);
+
+            const shipEl = document.getElementById('summary-sewa-shipping-cost');
+            if (shippingCost === 0) {
+                shipEl.textContent = 'Rp 0 (Pick Up)';
+                shipEl.className = 'font-semibold text-emerald-600';
+            } else {
+                shipEl.textContent = formatRupiah(shippingCost);
+                shipEl.className = 'font-semibold text-peach-600';
+            }
+
+            document.getElementById('summary-sewa-total').textContent = formatRupiah(rentCost + shippingCost);
+        }
+
+        function submitSewaBooking() {
+            const unit = rentUnits.find(u => u.id === selectedRentUnitId) || rentUnits[0];
+            const durKey = document.querySelector('input[name="sewa_duration"]:checked').value;
+            const durInfo = durationMeta[durKey];
+            const deliveryMode = document.querySelector('input[name="sewa_delivery"]:checked').value;
+            const addressVal = document.getElementById('sewa-address').value.trim();
+            const renterName = document.getElementById('sewa-name').value.trim();
+            const startDateVal = document.getElementById('sewa-start-date').value;
+
+            // Validasi Wajib Alamat jika Kirim
+            if (deliveryMode === 'kirim' && !addressVal) {
+                document.getElementById('sewa-address-error').classList.remove('hidden');
+                document.getElementById('sewa-address').focus();
+                showToast('Alamat lengkap wajib diisi jika memilih Kirim!', '⚠️');
+                return;
+            }
+            if (!renterName) {
+                showToast('Mohon isi Nama Penyewa terlebih dahulu', '⚠️');
+                document.getElementById('sewa-name').focus();
+                return;
+            }
+            if (!startDateVal) {
+                showToast('Mohon pilih Tanggal Mulai Sewa', '⚠️');
+                document.getElementById('sewa-start-date').focus();
+                return;
+            }
+
+            const rentCost = unit.rates[durKey];
+            const shippingCost = deliveryMode === 'kirim' ? Number(document.getElementById('sewa-zone').value) : 0;
+
+            const tx = {
+                id: 'INV-SEWA-' + Math.floor(1000 + Math.random() * 9000),
+                type: 'Sewa Perlengkapan',
+                date: `${formatIndoDate(startDateVal)} s/d ${addDaysISO(startDateVal, durInfo.days)}`,
+                customer: renterName,
+                method: deliveryMode === 'kirim' ? 'Kirim ke Alamat' : 'Pick Up (Ambil di Toko)',
+                address: deliveryMode === 'kirim' ? addressVal : 'Ambil di Toko Bloomy Label',
+                itemsSummary: `${unit.name} (${unit.category}) — Paket ${durInfo.label} (${durInfo.days} Hari)`,
+                subtotal: rentCost,
+                shipping: shippingCost,
+                total: rentCost + shippingCost
+            };
+
+            saveTransaction(tx);
+            openReceiptModal(tx);
+        }
+
+        // --- 8. TAB 3: LAYANAN LAUNDRY (STROLLER, CARSEAT, BABYSWING ONLY) ---
+        function renderLaundryItems() {
+            const container = document.getElementById('laundry-items-list');
+            container.innerHTML = laundryCatalog.map(item => `
+                <div class="flex items-center justify-between gap-3 p-4 rounded-xl border ${item.qty > 0 ? 'border-sky-500 bg-sky-50/40' : 'border-stone-200 bg-white'} transition">
+                    <div class="flex items-start gap-3">
+                        <div class="w-11 h-11 rounded-xl bg-sky-100/80 flex items-center justify-center text-xl shrink-0">
+                            ${item.icon}
+                        </div>
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <h4 class="font-display font-bold text-sm text-ink">${item.name}</h4>
+                                <span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-stone-100 text-stone-600">${item.category}</span>
+                            </div>
+                            <p class="text-xs text-stone-500 mt-0.5">${item.desc}</p>
+                            <div class="text-xs font-extrabold text-sky-700 mt-1.5">${formatRupiah(item.price)} / unit</div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-2 bg-white border border-stone-200 rounded-xl px-2 py-1.5 shrink-0">
+                        <button onclick="updateLaundryQty('${item.id}', -1)" class="w-7 h-7 rounded-lg hover:bg-stone-100 font-bold text-stone-600">-</button>
+                        <span class="text-xs font-extrabold w-5 text-center">${item.qty}</span>
+                        <button onclick="updateLaundryQty('${item.id}', 1)" class="w-7 h-7 rounded-lg hover:bg-sky-50 font-bold text-sky-700">+</button>
+                    </div>
+                </div>
+            `).join('');
+            updateLaundrySummary();
+        }
+
+        function updateLaundryQty(itemId, delta) {
+            const item = laundryCatalog.find(i => i.id === itemId);
+            if (!item) return;
+            item.qty = Math.max(0, item.qty + delta);
+            renderLaundryItems();
+        }
+
+        function handleLaundryDeliveryChange(mode) {
+            const box = document.getElementById('laundry-address-box');
+            const err = document.getElementById('laundry-address-error');
+            if (mode === 'pickup_delivery') {
+                box.classList.remove('hidden');
+            } else {
+                box.classList.add('hidden');
+                err.classList.add('hidden');
+            }
+            updateLaundrySummary();
+        }
+
+        function updateLaundrySummary() {
+            const selected = laundryCatalog.filter(i => i.qty > 0);
+            const listEl = document.getElementById('laundry-selected-summary');
+
+            if (selected.length === 0) {
+                listEl.innerHTML = `<p class="text-xs text-stone-400 italic py-2">Belum ada item dipilih. Tambahkan minimal 1 perlengkapan.</p>`;
+            } else {
+                listEl.innerHTML = selected.map(i => `
+                    <div class="flex justify-between items-center text-xs bg-cream px-3 py-2 rounded-xl">
+                        <span class="font-semibold text-ink">${i.icon} ${i.name} (${i.qty}x)</span>
+                        <span class="font-bold text-stone-700">${formatRupiah(i.price * i.qty)}</span>
+                    </div>
+                `).join('');
+            }
+
+            const subtotal = selected.reduce((sum, i) => sum + (i.price * i.qty), 0);
+            const deliveryMode = document.querySelector('input[name="laundry_delivery"]:checked')?.value || 'dropoff';
+            const shipping = (deliveryMode === 'pickup_delivery' && selected.length > 0)
+                ? Number(document.getElementById('laundry-zone').value)
+                : 0;
+
+            document.getElementById('summary-laundry-subtotal').textContent = formatRupiah(subtotal);
+            const shipEl = document.getElementById('summary-laundry-shipping');
+            if (deliveryMode === 'dropoff') {
+                shipEl.textContent = 'Rp 0 (Drop-Off)';
+                shipEl.className = 'font-semibold text-emerald-600';
+            } else {
+                shipEl.textContent = formatRupiah(shipping);
+                shipEl.className = 'font-semibold text-sky-700';
+            }
+
+            document.getElementById('summary-laundry-total').textContent = formatRupiah(subtotal + shipping);
+        }
+
+        function submitLaundryBooking() {
+            const selected = laundryCatalog.filter(i => i.qty > 0);
+            if (selected.length === 0) {
+                showToast('Pilih minimal 1 item perlengkapan untuk di-laundry', '⚠️');
+                return;
+            }
+
+            const deliveryMode = document.querySelector('input[name="laundry_delivery"]:checked').value;
+            const addressVal = document.getElementById('laundry-address').value.trim();
+            const custName = document.getElementById('laundry-name').value.trim();
+            const dateVal = document.getElementById('laundry-date').value;
+
+            if (deliveryMode === 'pickup_delivery' && !addressVal) {
+                document.getElementById('laundry-address-error').classList.remove('hidden');
+                document.getElementById('laundry-address').focus();
+                showToast('Alamat penjemputan wajib diisi!', '⚠️');
+                return;
+            }
+            if (!custName) {
+                showToast('Mohon isi Nama Pemesan', '⚠️');
+                document.getElementById('laundry-name').focus();
+                return;
+            }
+            if (!dateVal) {
+                showToast('Mohon pilih Tanggal Jadwal Laundry', '⚠️');
+                document.getElementById('laundry-date').focus();
+                return;
+            }
+
+            const subtotal = selected.reduce((sum, i) => sum + (i.price * i.qty), 0);
+            const shipping = deliveryMode === 'pickup_delivery' ? Number(document.getElementById('laundry-zone').value) : 0;
+
+            const tx = {
+                id: 'INV-LND-' + Math.floor(1000 + Math.random() * 9000),
+                type: 'Layanan Laundry',
+                date: formatIndoDate(dateVal),
+                customer: custName,
+                method: deliveryMode === 'pickup_delivery' ? 'Antar-Jemput Kurir (PP)' : 'Drop-Off ke Toko',
+                address: deliveryMode === 'pickup_delivery' ? addressVal : 'Drop-Off Workshop Bloomy Label',
+                itemsSummary: selected.map(i => `${i.name} (${i.qty}x)`).join(', '),
+                subtotal,
+                shipping,
+                total: subtotal + shipping
+            };
+
+            saveTransaction(tx);
+            openReceiptModal(tx);
+        }
+
+        // --- 9. TRANSACTIONS, RECEIPT MODAL & HISTORY ---
+        function saveTransaction(tx) {
+            transactions.unshift(tx);
+            localStorage.setItem('BloomyLabel_transactions', JSON.stringify(transactions));
+            updateHistoryBadge();
+            if (document.getElementById('beli-product-grid')) renderBuyProducts();
+        }
+
+        function updateHistoryBadge() {
+            const badge = document.getElementById('history-badge');
+            if (transactions.length > 0) {
+                badge.textContent = transactions.length;
+                badge.classList.remove('hidden');
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+
+        function openReceiptModal(tx) {
+            document.getElementById('receipt-type-badge').textContent = tx.type;
+            document.getElementById('receipt-heading').textContent = tx.status?.startsWith('Menunggu')
+                ? 'Pesanan Berhasil Dicatat'
+                : 'Transaksi Dikonfirmasi!';
+            document.getElementById('receipt-id').textContent = `${tx.id} • Status: ${tx.status || 'Dikonfirmasi'}`;
+            document.getElementById('receipt-body').innerHTML = `
+                <div class="flex justify-between gap-2">
+                    <span class="text-stone-500">Pemesan</span>
+                    <span class="font-bold text-ink text-right">${tx.customer}</span>
+                </div>
+                <div class="flex justify-between gap-2">
+                    <span class="text-stone-500">Tanggal / Periode</span>
+                    <span class="font-semibold text-ink text-right">${tx.date}</span>
+                </div>
+                <div class="flex justify-between gap-2">
+                    <span class="text-stone-500">Metode</span>
+                    <span class="font-semibold text-sage-700 text-right">${tx.method}</span>
+                </div>
+                <div class="flex justify-between gap-2">
+                    <span class="text-stone-500">Pembayaran</span>
+                    <span class="font-semibold text-ink text-right">${tx.paymentMethod || 'Transfer Bank'}</span>
+                </div>
+                ${(tx.paymentDeadline || tx.pickupDeadline) ? `
+                    <div class="flex justify-between gap-2">
+                        <span class="text-stone-500">${tx.paymentDeadline ? 'Batas Pembayaran' : 'Batas Pengambilan'}</span>
+                        <span class="font-semibold text-peach-600 text-right">${formatIndoDateTime(tx.paymentDeadline || tx.pickupDeadline)}</span>
+                    </div>
+                ` : ''}
+                <div class="flex justify-between gap-2">
+                    <span class="text-stone-500 shrink-0">Lokasi / Alamat</span>
+                    <span class="font-medium text-ink text-right text-xs">${tx.address}</span>
+                </div>
+                <div class="pt-2 border-t border-stone-200">
+                    <span class="text-stone-500 block mb-1">Detail Layanan / Item:</span>
+                    <p class="font-semibold text-ink text-xs">${tx.itemsSummary}</p>
+                </div>
+                <div class="pt-2 border-t border-dashed border-stone-300 space-y-1">
+                    <div class="flex justify-between text-stone-600 text-xs">
+                        <span>Biaya Utama</span>
+                        <span>${formatRupiah(tx.subtotal)}</span>
+                    </div>
+                    <div class="flex justify-between text-stone-600 text-xs">
+                        <span>Ongkos Kirim / Jemput</span>
+                        <span>${formatRupiah(tx.shipping)}</span>
+                    </div>
+                    <div class="flex justify-between font-extrabold text-base text-peach-600 pt-1">
+                        <span>Total Bayar</span>
+                        <span>${formatRupiah(tx.total)}</span>
+                    </div>
+                </div>
+            `;
+            document.getElementById('receipt-modal').classList.remove('hidden');
+        }
+
+        function closeReceiptModal() {
+            document.getElementById('receipt-modal').classList.add('hidden');
+        }
+
+        function openHistoryModal() {
+            const container = document.getElementById('history-list-container');
+            if (transactions.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12">
+                        <div class="text-4xl mb-2">📋</div>
+                        <h4 class="font-display font-bold text-base text-ink">Belum Ada Riwayat Transaksi</h4>
+                        <p class="text-xs text-stone-500 mt-1">Transaksi Beli, Sewa, atau Laundry Anda akan tampil lengkap di sini.</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = transactions.map(tx => `
+                    <div class="p-4 rounded-2xl bg-cream border border-stone-200/90 space-y-2">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2.5 py-0.5 rounded-lg bg-sage-600 text-white text-[11px] font-bold">${tx.type}</span>
+                                <span class="text-xs font-mono text-stone-500">${tx.id}</span>
+                            </div>
+                            <span class="text-xs font-bold ${tx.status === 'Dibatalkan' ? 'text-red-700 bg-red-50' : 'text-emerald-700 bg-emerald-50'} px-2.5 py-0.5 rounded-full">${tx.status || '✓ Dikonfirmasi'}</span>
+                        </div>
+                        <p class="text-xs sm:text-sm font-bold text-ink">${tx.itemsSummary}</p>
+                        <div class="text-xs text-stone-600 space-y-0.5">
+                            <div>👤 <strong>${tx.customer}</strong> • 📅 ${tx.date}</div>
+                            <div>🚚 <strong>${tx.method}</strong> — ${tx.address}</div>
+                            <div>💳 Pembayaran: <strong>${tx.paymentMethod || 'Belum tercatat'}</strong></div>
+                            ${(tx.paymentDeadline || tx.pickupDeadline) ? `<div>⏰ ${tx.paymentDeadline ? 'Bayar sebelum' : 'Ambil sebelum'}: <strong>${formatIndoDateTime(tx.paymentDeadline || tx.pickupDeadline)}</strong></div>` : ''}
+                        </div>
+                        <div class="pt-2 border-t border-stone-200/80 flex items-center justify-between text-xs">
+                            <span class="text-stone-500">Biaya: ${formatRupiah(tx.subtotal)} + Ongkir: ${formatRupiah(tx.shipping)}</span>
+                            <span class="font-display font-extrabold text-sm text-peach-600">Total: ${formatRupiah(tx.total)}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            document.getElementById('history-modal').classList.remove('hidden');
+        }
+
+        function closeHistoryModal() {
+            document.getElementById('history-modal').classList.add('hidden');
+        }
+
+        // --- 10. INITIALIZATION ---
+        document.addEventListener('DOMContentLoaded', () => {
+            expirePurchaseOrders();
+            window.setInterval(() => {
+                if (expirePurchaseOrders()) {
+                    if (document.getElementById('beli-product-grid')) renderBuyProducts();
+                    updateHistoryBadge();
+                }
+            }, 60000);
+
+            const today = getTodayISO();
+            const sewaDateInput = document.getElementById('sewa-start-date');
+            const laundryDateInput = document.getElementById('laundry-date');
+
+            if (sewaDateInput) {
+                sewaDateInput.min = today;
+                sewaDateInput.value = today;
+            }
+            if (laundryDateInput) {
+                laundryDateInput.min = today;
+                laundryDateInput.value = today;
+            }
+
+            if (document.getElementById('beli-product-grid')) renderBuyProducts('Semua');
+            if (document.getElementById('sewa-unit-list')) {
+                renderSewaUnits();
+                updateSewaSummary();
+            }
+            if (document.getElementById('laundry-items-list')) {
+                renderLaundryItems();
+                updateLaundrySummary();
+            }
+            updateHistoryBadge();
+        });
+
+        window.addEventListener('storage', event => {
+            if (event.key !== 'BloomyLabel_transactions') return;
+            transactions = JSON.parse(event.newValue || '[]');
+            expirePurchaseOrders();
+            if (document.getElementById('beli-product-grid')) renderBuyProducts();
+            updateHistoryBadge();
+            if (document.getElementById('cart-drawer-overlay')?.classList.contains('hidden') === false) {
+                renderCart();
+            }
+        });
+    </script>
+</body>
+</html>

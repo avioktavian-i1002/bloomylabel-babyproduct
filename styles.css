@@ -1,0 +1,30 @@
+/* Custom smooth transitions & scrollbar */
+body {
+    background-color: #FAF7F4;
+    color: #232629;
+}
+
+.tab-active {
+    background-color: #3C614F;
+    color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(60, 97, 79, 0.22);
+}
+
+.card-hover {
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px -8px rgba(35, 38, 41, 0.12);
+}
+
+/* Hide scrollbar for horizontal category pills on mobile */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
