@@ -4,70 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SiKecil Gear - Sewa Perlengkapan Bayi</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts: Inter & Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        display: ['Plus Jakarta Sans', 'sans-serif'],
-                    },
-                    colors: {
-                        cream: '#FAF7F4',
-                        peach: {
-                            50: '#FFF5F1',
-                            100: '#FFE8DF',
-                            200: '#FFD0BE',
-                            500: '#E8734A',
-                            600: '#D35B31',
-                        },
-                        sage: {
-                            50: '#F2F7F4',
-                            100: '#E1ECE5',
-                            500: '#4F7A65',
-                            600: '#3C614F',
-                            700: '#2D4A3C',
-                        },
-                        ink: '#232629'
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        /* Custom smooth transitions & scrollbar */
-        body {
-            background-color: #FAF7F4;
-            color: #232629;
-        }
-        .tab-active {
-            background-color: #3C614F;
-            color: #FFFFFF;
-            box-shadow: 0 4px 12px rgba(60, 97, 79, 0.22);
-        }
-        .card-hover {
-            transition: transform 0.22s ease, box-shadow 0.22s ease;
-        }
-        .card-hover:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 24px -8px rgba(35, 38, 41, 0.12);
-        }
-        /* Hide scrollbar for horizontal category pills on mobile */
-        .no-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .no-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-    </style>
 </head>
 <body class="font-sans antialiased min-h-screen flex flex-col">
 
@@ -94,13 +35,13 @@
 
                 <!-- Desktop Navigation Tabs -->
                 <nav class="hidden md:flex items-center bg-stone-100 p-1.5 rounded-2xl gap-1">
-                    <button id="nav-beli" onclick="switchTab('beli')" class="nav-tab text-stone-600 hover:text-ink px-4 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-2">
+                    <button id="nav-beli" onclick="switchTab('beli')" class="nav-tab">
                         <span>🛍️</span> Beli Perlengkapan
                     </button>
-                    <button id="nav-sewa" onclick="switchTab('sewa')" class="nav-tab tab-active px-4 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-2">
+                    <button id="nav-sewa" onclick="switchTab('sewa')" class="nav-tab tab-active">
                         <span>📅</span> Sewa Perlengkapan
                     </button>
-                    <button id="nav-laundry" onclick="switchTab('laundry')" class="nav-tab text-stone-600 hover:text-ink px-4 py-2 rounded-xl text-sm font-semibold transition-all flex items-center gap-2">
+                    <button id="nav-laundry" onclick="switchTab('laundry')" class="nav-tab">
                         <span>🫧</span> Layanan Laundry
                     </button>
                 </nav>
@@ -108,13 +49,13 @@
                 <!-- Right Actions: History & Cart -->
                 <div class="flex items-center gap-2 sm:gap-3">
                     <a href="admin.html" class="p-2.5 sm:px-3.5 sm:py-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 font-semibold text-sm transition flex items-center gap-2 border border-stone-200" title="Panel Admin">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 15.5A3.5 3.5 0 1012 8a3.5 3.5 0 000 7.5z"/>
                         </svg>
                         <span class="hidden sm:inline">Admin</span>
                     </a>
                     <button onclick="openHistoryModal()" class="relative p-2.5 sm:px-3.5 sm:py-2 rounded-xl bg-sage-50 hover:bg-sage-100 text-sage-700 font-semibold text-sm transition flex items-center gap-2 border border-sage-100" title="Riwayat Transaksi">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/>
                         </svg>
                         <span class="hidden sm:inline">Riwayat</span>
@@ -122,7 +63,7 @@
                     </button>
 
                     <button onclick="toggleCartDrawer(true)" class="relative p-2.5 sm:px-4 sm:py-2 rounded-xl bg-peach-500 hover:bg-peach-600 text-white font-semibold text-sm transition flex items-center gap-2 shadow-sm">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
                         </svg>
                         <span class="hidden sm:inline">Keranjang</span>
@@ -133,13 +74,13 @@
 
             <!-- Mobile Navigation Tabs -->
             <div class="flex md:hidden items-center gap-2 pb-3 overflow-x-auto no-scrollbar">
-                <button id="m-nav-beli" onclick="switchTab('beli')" class="m-nav-tab bg-stone-100 text-stone-600 flex-1 whitespace-nowrap px-3.5 py-2 rounded-xl text-xs font-semibold transition-all">
+                <button id="m-nav-beli" onclick="switchTab('beli')" class="m-nav-tab">
                     🛍️ Beli Baru
                 </button>
-                <button id="m-nav-sewa" onclick="switchTab('sewa')" class="m-nav-tab tab-active flex-1 whitespace-nowrap px-3.5 py-2 rounded-xl text-xs font-semibold transition-all">
+                <button id="m-nav-sewa" onclick="switchTab('sewa')" class="m-nav-tab tab-active">
                     📅 Sewa Unit
                 </button>
-                <button id="m-nav-laundry" onclick="switchTab('laundry')" class="m-nav-tab bg-stone-100 text-stone-600 flex-1 whitespace-nowrap px-3.5 py-2 rounded-xl text-xs font-semibold transition-all">
+                <button id="m-nav-laundry" onclick="switchTab('laundry')" class="m-nav-tab">
                     🫧 Laundry Bayi
                 </button>
             </div>
@@ -166,18 +107,18 @@
                 <!-- 3 Layanan Quick Pills -->
                 <div class="grid grid-cols-3 gap-2.5 sm:gap-3 shrink-0">
                     <div onclick="switchTab('beli')" class="cursor-pointer bg-white p-3 sm:p-4 rounded-2xl border border-stone-200/80 hover:border-peach-500 transition text-center shadow-2xs">
-                        <div class="text-xl sm:text-2xl mb-1">🛍️</div>
-                        <div class="font-bold text-xs sm:text-sm text-ink">Beli Baru</div>
+                        <div class="section-title">🛍️</div>
+                        <div class="small-card-title">Beli Baru</div>
                         <div class="text-[11px] text-stone-500">4 Kategori</div>
                     </div>
                     <div onclick="switchTab('sewa')" class="cursor-pointer bg-white p-3 sm:p-4 rounded-2xl border border-stone-200/80 hover:border-sage-500 transition text-center shadow-2xs">
-                        <div class="text-xl sm:text-2xl mb-1">📅</div>
-                        <div class="font-bold text-xs sm:text-sm text-ink">Sewa Unit</div>
+                        <div class="section-title">📅</div>
+                        <div class="small-card-title">Sewa Unit</div>
                         <div class="text-[11px] text-stone-500">Max 1 Bulan</div>
                     </div>
                     <div onclick="switchTab('laundry')" class="cursor-pointer bg-white p-3 sm:p-4 rounded-2xl border border-stone-200/80 hover:border-sky-500 transition text-center shadow-2xs">
-                        <div class="text-xl sm:text-2xl mb-1">🫧</div>
-                        <div class="font-bold text-xs sm:text-sm text-ink">Laundry</div>
+                        <div class="section-title">🫧</div>
+                        <div class="small-card-title">Laundry</div>
                         <div class="text-[11px] text-stone-500">Antar-Jemput</div>
                     </div>
                 </div>
@@ -203,11 +144,11 @@
                 <!-- Kolom Kiri: Langkah 1 - 4 (7 kolom) -->
                 <div class="lg:col-span-7 space-y-6">
                     <!-- STEP 1: Pilih Produk Sewa (Hanya Stroller & Carseat) -->
-                    <div class="bg-white rounded-2xl p-5 sm:p-6 border border-stone-200/90 shadow-2xs">
+                    <div class="panel">
                         <div class="flex items-center justify-between mb-4">
                             <div class="flex items-center gap-2.5">
                                 <span class="w-7 h-7 rounded-full bg-sage-600 text-white text-xs font-bold flex items-center justify-center">1</span>
-                                <h3 class="font-display font-bold text-base sm:text-lg text-ink">Pilih Unit Stroller atau Carseat</h3>
+                                <h3 class="responsive-card-heading">Pilih Unit Stroller atau Carseat</h3>
                             </div>
                             <div class="flex gap-1.5">
                                 <button onclick="filterSewaUnit('Semua')" id="sewa-cat-all" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-sage-600 text-white">Semua</button>
@@ -222,10 +163,10 @@
                     </div>
 
                     <!-- STEP 2: Pilih Metode Pengambilan (Pick Up vs Kirim) -->
-                    <div class="bg-white rounded-2xl p-5 sm:p-6 border border-stone-200/90 shadow-2xs">
+                    <div class="panel">
                         <div class="flex items-center gap-2.5 mb-4">
                             <span class="w-7 h-7 rounded-full bg-sage-600 text-white text-xs font-bold flex items-center justify-center">2</span>
-                            <h3 class="font-display font-bold text-base sm:text-lg text-ink">Metode Pengambilan / Pengiriman</h3>
+                            <h3 class="responsive-card-heading">Metode Pengambilan / Pengiriman</h3>
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
@@ -233,10 +174,10 @@
                                 <input type="radio" name="sewa_delivery" value="pickup" class="peer sr-only" checked onchange="handleSewaDeliveryChange('pickup')">
                                 <div class="p-4 rounded-xl border-2 border-stone-200 peer-checked:border-sage-600 peer-checked:bg-sage-50/70 transition h-full">
                                     <div class="flex items-center justify-between mb-1">
-                                        <span class="font-bold text-sm text-ink">🏪 Pick Up (Ambil di Toko)</span>
+                                        <span class="card-title">🏪 Pick Up (Ambil di Toko)</span>
                                         <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">Gratis Ongkir</span>
                                     </div>
-                                    <p class="text-xs text-stone-500">Ambil langsung di store Bloomy Label (09.00 – 20.00 WIB). Ongkos kirim Rp 0.</p>
+                                    <p class="helper-text">Ambil langsung di store Bloomy Label (09.00 – 20.00 WIB). Ongkos kirim Rp 0.</p>
                                 </div>
                             </label>
 
@@ -244,17 +185,17 @@
                                 <input type="radio" name="sewa_delivery" value="kirim" class="peer sr-only" onchange="handleSewaDeliveryChange('kirim')">
                                 <div class="p-4 rounded-xl border-2 border-stone-200 peer-checked:border-sage-600 peer-checked:bg-sage-50/70 transition h-full">
                                     <div class="flex items-center justify-between mb-1">
-                                        <span class="font-bold text-sm text-ink">🚚 Kirim ke Alamat</span>
+                                        <span class="card-title">🚚 Kirim ke Alamat</span>
                                         <span class="text-xs font-bold text-peach-600 bg-peach-50 px-2 py-0.5 rounded-full">+ Ongkir Kurir</span>
                                     </div>
-                                    <p class="text-xs text-stone-500">Diantar kurir khusus perlengkapan bayi langsung ke rumah Anda. Wajib isi alamat.</p>
+                                    <p class="helper-text">Diantar kurir khusus perlengkapan bayi langsung ke rumah Anda. Wajib isi alamat.</p>
                                 </div>
                             </label>
                         </div>
 
                         <div id="sewa-payment-options" class="space-y-2">
                             <p class="text-xs font-semibold text-stone-700">Pembayaran untuk Pick Up</p>
-                            <div class="grid grid-cols-2 gap-2">
+                            <div class="choice-grid">
                                 <label class="cursor-pointer">
                                     <input type="radio" name="sewa_payment" value="COD" class="peer sr-only" checked>
                                     <span class="block p-2.5 rounded-xl border border-stone-300 bg-white peer-checked:border-sage-600 peer-checked:bg-sage-50 text-center text-xs font-bold">💵 COD</span>
@@ -274,7 +215,7 @@
                             </div>
 
                             <div>
-                                <label for="sewa-zone" class="block text-xs font-semibold text-stone-700 mb-1">Pilih Zona / Jarak Pengiriman <span class="text-red-500">*</span></label>
+                                <label for="sewa-zone" class="form-label">Pilih Zona / Jarak Pengiriman <span class="text-red-500">*</span></label>
                                 <select id="sewa-zone" onchange="updateSewaSummary()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 bg-white text-sm focus:outline-none focus:border-sage-600">
                                     <option value="15000">Zona 1 — Dalam Kota (&lt; 10 km) • Rp 15.000</option>
                                     <option value="25000">Zona 2 — Pinggir Kota (10 – 20 km) • Rp 25.000</option>
@@ -283,7 +224,7 @@
                             </div>
 
                             <div>
-                                <label for="sewa-address" class="block text-xs font-semibold text-stone-700 mb-1">Alamat Lengkap Pengiriman <span class="text-red-500">*</span></label>
+                                <label for="sewa-address" class="form-label">Alamat Lengkap Pengiriman <span class="text-red-500">*</span></label>
                                 <textarea id="sewa-address" rows="2" oninput="updateSewaSummary()" placeholder="Contoh: Jl. Melati Indah No. 12, RT 03/RW 05, Kel. Sukamaju, Kec. Cilandak..." class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 bg-white text-sm focus:outline-none focus:border-sage-600"></textarea>
                                 <p id="sewa-address-error" class="hidden text-xs text-red-600 font-medium mt-1">⚠️ Alamat lengkap wajib diisi karena Anda memilih metode Kirim.</p>
                             </div>
@@ -291,11 +232,11 @@
                     </div>
 
                     <!-- STEP 3: Pilih Durasi Sewa (Pilihan Mingguan s/d Maksimal 1 Bulan - BUKAN input bebas) -->
-                    <div class="bg-white rounded-2xl p-5 sm:p-6 border border-stone-200/90 shadow-2xs">
+                    <div class="panel">
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-4">
                             <div class="flex items-center gap-2.5">
                                 <span class="w-7 h-7 rounded-full bg-sage-600 text-white text-xs font-bold flex items-center justify-center">3</span>
-                                <h3 class="font-display font-bold text-base sm:text-lg text-ink">Pilih Paket Durasi Sewa</h3>
+                                <h3 class="responsive-card-heading">Pilih Paket Durasi Sewa</h3>
                             </div>
                             <span class="text-xs font-semibold text-stone-500">Maksimal durasi 1 bulan (30 hari)</span>
                         </div>
@@ -304,8 +245,8 @@
                             <label class="cursor-pointer">
                                 <input type="radio" name="sewa_duration" value="1w" class="peer sr-only" checked onchange="updateSewaSummary()">
                                 <div class="p-3.5 rounded-xl border-2 border-stone-200 peer-checked:border-peach-500 peer-checked:bg-peach-50/70 text-center transition">
-                                    <div class="font-bold text-sm text-ink">1 Minggu</div>
-                                    <div class="text-xs text-stone-500 mt-0.5">7 Hari</div>
+                                    <div class="card-title">1 Minggu</div>
+                                    <div class="field-hint">7 Hari</div>
                                     <div id="dur-price-1w" class="text-xs font-bold text-peach-600 mt-2">Rp 0</div>
                                 </div>
                             </label>
@@ -313,8 +254,8 @@
                             <label class="cursor-pointer">
                                 <input type="radio" name="sewa_duration" value="2w" class="peer sr-only" onchange="updateSewaSummary()">
                                 <div class="p-3.5 rounded-xl border-2 border-stone-200 peer-checked:border-peach-500 peer-checked:bg-peach-50/70 text-center transition">
-                                    <div class="font-bold text-sm text-ink">2 Minggu</div>
-                                    <div class="text-xs text-stone-500 mt-0.5">14 Hari</div>
+                                    <div class="card-title">2 Minggu</div>
+                                    <div class="field-hint">14 Hari</div>
                                     <div id="dur-price-2w" class="text-xs font-bold text-peach-600 mt-2">Rp 0</div>
                                 </div>
                             </label>
@@ -322,8 +263,8 @@
                             <label class="cursor-pointer">
                                 <input type="radio" name="sewa_duration" value="3w" class="peer sr-only" onchange="updateSewaSummary()">
                                 <div class="p-3.5 rounded-xl border-2 border-stone-200 peer-checked:border-peach-500 peer-checked:bg-peach-50/70 text-center transition">
-                                    <div class="font-bold text-sm text-ink">3 Minggu</div>
-                                    <div class="text-xs text-stone-500 mt-0.5">21 Hari</div>
+                                    <div class="card-title">3 Minggu</div>
+                                    <div class="field-hint">21 Hari</div>
                                     <div id="dur-price-3w" class="text-xs font-bold text-peach-600 mt-2">Rp 0</div>
                                 </div>
                             </label>
@@ -332,8 +273,8 @@
                                 <input type="radio" name="sewa_duration" value="1m" class="peer sr-only" onchange="updateSewaSummary()">
                                 <div class="relative p-3.5 rounded-xl border-2 border-stone-200 peer-checked:border-peach-500 peer-checked:bg-peach-50/70 text-center transition">
                                     <span class="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-sage-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap">Maks. 1 Bulan</span>
-                                    <div class="font-bold text-sm text-ink">1 Bulan</div>
-                                    <div class="text-xs text-stone-500 mt-0.5">30 Hari</div>
+                                    <div class="card-title">1 Bulan</div>
+                                    <div class="field-hint">30 Hari</div>
                                     <div id="dur-price-1m" class="text-xs font-bold text-peach-600 mt-2">Rp 0</div>
                                 </div>
                             </label>
@@ -342,15 +283,15 @@
                         <!-- Step 4: Data Penyewa & Tanggal Mulai -->
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mt-5 pt-4 border-t border-stone-100">
                             <div>
-                                <label for="sewa-name" class="block text-xs font-semibold text-stone-700 mb-1">Nama Penyewa <span class="text-red-500">*</span></label>
+                                <label for="sewa-name" class="form-label">Nama Penyewa <span class="text-red-500">*</span></label>
                                 <input type="text" id="sewa-name" placeholder="Nama lengkap Anda" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-sm focus:outline-none focus:border-sage-600">
                             </div>
                             <div>
-                                <label for="sewa-phone" class="block text-xs font-semibold text-stone-700 mb-1">WhatsApp / Telepon <span class="text-red-500">*</span></label>
+                                <label for="sewa-phone" class="form-label">WhatsApp / Telepon <span class="text-red-500">*</span></label>
                                 <input type="tel" id="sewa-phone" placeholder="Contoh: 081234567890" autocomplete="tel" inputmode="tel" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-sm focus:outline-none focus:border-sage-600">
                             </div>
                             <div>
-                                <label for="sewa-start-date" class="block text-xs font-semibold text-stone-700 mb-1">Tanggal Mulai Sewa <span class="text-red-500">*</span></label>
+                                <label for="sewa-start-date" class="form-label">Tanggal Mulai Sewa <span class="text-red-500">*</span></label>
                                 <input type="date" id="sewa-start-date" onchange="updateSewaSummary()" class="w-full px-3.5 py-2.5 rounded-xl border border-stone-300 text-sm focus:outline-none focus:border-sage-600">
                             </div>
                         </div>
@@ -361,7 +302,7 @@
                 <div class="lg:col-span-5 lg:sticky lg:top-24">
                     <div class="bg-white rounded-2xl p-5 sm:p-6 border border-stone-200 shadow-sm space-y-4">
                         <div class="flex items-center justify-between border-b border-stone-100 pb-3">
-                            <h3 class="font-display font-bold text-lg text-ink">Ringkasan Biaya Sewa</h3>
+                            <h3 class="section-heading">Ringkasan Biaya Sewa</h3>
                             <span class="text-xs font-semibold px-2.5 py-1 rounded-lg bg-sage-50 text-sage-700">Kalkulasi Otomatis</span>
                         </div>
 
@@ -372,8 +313,8 @@
                             </div>
                             <div class="min-w-0">
                                 <span id="summary-sewa-cat" class="text-[11px] font-bold uppercase tracking-wider text-sage-600">Stroller</span>
-                                <h4 id="summary-sewa-name" class="font-bold text-sm text-ink truncate">-</h4>
-                                <p id="summary-sewa-period" class="text-xs text-stone-500 mt-0.5">Durasi: 1 Minggu (7 Hari)</p>
+                                <h4 id="summary-sewa-name" class="truncated-title">-</h4>
+                                <p id="summary-sewa-period" class="field-hint">Durasi: 1 Minggu (7 Hari)</p>
                             </div>
                         </div>
 
@@ -397,7 +338,7 @@
                             </div>
                             <div class="flex justify-between text-stone-600">
                                 <span>Ongkos Kirim</span>
-                                <span id="summary-sewa-shipping-cost" class="font-semibold text-emerald-600">Rp 0 (Pick Up)</span>
+                                <span id="summary-sewa-shipping-cost" class="confirmed-status">Rp 0 (Pick Up)</span>
                             </div>
                         </div>
 
@@ -424,7 +365,7 @@
     <!-- ==================== FOOTER ==================== -->
     <footer class="bg-white border-t border-stone-200 mt-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-500">
-            <div class="flex items-center gap-2">
+            <div class="inline-group">
                 <span class="font-display font-bold text-sm text-ink">Bloomy<span class="text-peach-500">Label</span></span>
                 <span>•</span>
                 <span>Jual, Sewa & Laundry Perlengkapan Bayi Higienis</span>
@@ -439,12 +380,12 @@
         <aside class="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl flex flex-col">
             <!-- Header Drawer -->
             <div class="px-5 py-4 border-b border-stone-200 flex items-center justify-between">
-                <div class="flex items-center gap-2">
+                <div class="inline-group">
                     <span class="text-xl">🛍️</span>
-                    <h3 class="font-display font-bold text-lg text-ink">Keranjang Belanja</h3>
+                    <h3 class="section-heading">Keranjang Belanja</h3>
                 </div>
-                <button onclick="toggleCartDrawer(false)" class="p-2 rounded-xl hover:bg-stone-100 text-stone-500">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <button onclick="toggleCartDrawer(false)" class="icon-button">
+                    <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                 </button>
@@ -458,7 +399,7 @@
             <!-- Checkout Form & Total di Bawah Drawer -->
             <div id="cart-checkout-footer" class="border-t border-stone-200 bg-cream p-5 space-y-3.5 hidden">
                 <div class="space-y-2.5">
-                    <div class="grid grid-cols-2 gap-2">
+                    <div class="choice-grid">
                         <label class="cursor-pointer">
                             <input type="radio" name="cart_delivery" value="pickup" class="peer sr-only" checked onchange="handleCartDeliveryChange('pickup')">
                             <div class="p-2.5 rounded-xl border border-stone-300 bg-white peer-checked:border-peach-500 peer-checked:bg-peach-50 text-center text-xs font-bold">
@@ -474,16 +415,16 @@
                     </div>
 
                     <div id="cart-address-fields" class="hidden space-y-2">
-                        <select id="cart-zone" onchange="renderCart()" class="w-full px-3 py-2 rounded-xl border border-stone-300 bg-white text-xs">
+                        <select id="cart-zone" onchange="renderCart()" class="form-control">
                             <option value="15000">Zona 1 — Dalam Kota (Rp 15.000)</option>
                             <option value="25000">Zona 2 — Pinggir Kota (Rp 25.000)</option>
                             <option value="35000">Zona 3 — Luar Kota (Rp 35.000)</option>
                         </select>
-                        <textarea id="cart-address" rows="2" placeholder="Alamat lengkap pengiriman pesanan..." class="w-full px-3 py-2 rounded-xl border border-stone-300 bg-white text-xs"></textarea>
+                        <textarea id="cart-address" rows="2" placeholder="Alamat lengkap pengiriman pesanan..." class="form-control"></textarea>
                     </div>
 
-                    <input type="text" id="cart-buyer-name" placeholder="Nama penerima / pemesan..." class="w-full px-3 py-2 rounded-xl border border-stone-300 bg-white text-xs">
-                    <input type="tel" id="cart-buyer-phone" placeholder="Nomor WhatsApp / telepon yang bisa dihubungi" autocomplete="tel" inputmode="tel" class="w-full px-3 py-2 rounded-xl border border-stone-300 bg-white text-xs">
+                    <input type="text" id="cart-buyer-name" placeholder="Nama penerima / pemesan..." class="form-control">
+                    <input type="tel" id="cart-buyer-phone" placeholder="Nomor WhatsApp / telepon yang bisa dihubungi" autocomplete="tel" inputmode="tel" class="form-control">
                 </div>
 
                 <div class="space-y-1 text-xs pt-1 border-t border-stone-200">
@@ -493,7 +434,7 @@
                     </div>
                     <div class="flex justify-between text-stone-600">
                         <span>Ongkos Kirim</span>
-                        <span id="cart-shipping" class="font-semibold text-emerald-600">Rp 0</span>
+                        <span id="cart-shipping" class="confirmed-status">Rp 0</span>
                     </div>
                     <div class="flex justify-between text-base font-extrabold text-ink pt-1.5">
                         <span>Total Bayar</span>
@@ -509,15 +450,15 @@
     </div>
 
     <!-- ==================== MODAL STRUK / BUKTI TRANSAKSI ==================== -->
-    <div id="receipt-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
-        <div onclick="closeReceiptModal()" class="absolute inset-0 bg-black/50 backdrop-blur-xs"></div>
+    <div id="receipt-modal" class="modal hidden">
+        <div onclick="closeReceiptModal()" class="modal-backdrop"></div>
         <div class="relative bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
             <div class="text-center">
                 <div class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-3 text-2xl">
                     ✅
                 </div>
                 <span id="receipt-type-badge" class="inline-block px-3 py-1 rounded-full bg-sage-50 text-sage-700 text-xs font-bold mb-1">Booking Sewa Berhasil</span>
-                <h3 class="font-display text-xl font-extrabold text-ink">Transaksi Dikonfirmasi!</h3>
+                <h3 class="panel-title">Transaksi Dikonfirmasi!</h3>
                 <p id="receipt-id" class="text-xs text-stone-500 font-mono mt-0.5">INV-2026-0001</p>
             </div>
 
@@ -537,16 +478,16 @@
     </div>
 
     <!-- ==================== MODAL RIWAYAT TRANSAKSI ==================== -->
-    <div id="history-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
-        <div onclick="closeHistoryModal()" class="absolute inset-0 bg-black/50 backdrop-blur-xs"></div>
+    <div id="history-modal" class="modal hidden">
+        <div onclick="closeHistoryModal()" class="modal-backdrop"></div>
         <div class="relative bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl flex flex-col max-h-[85vh]">
             <div class="flex items-center justify-between pb-4 border-b border-stone-200">
                 <div>
-                    <h3 class="font-display text-xl font-extrabold text-ink">Riwayat Transaksi & Booking</h3>
-                    <p class="text-xs text-stone-500">Semua riwayat Beli, Sewa, dan Laundry tersimpan otomatis di sesi ini.</p>
+                    <h3 class="panel-title">Riwayat Transaksi & Booking</h3>
+                    <p class="helper-text">Semua riwayat Beli, Sewa, dan Laundry tersimpan otomatis di sesi ini.</p>
                 </div>
-                <button onclick="closeHistoryModal()" class="p-2 rounded-xl hover:bg-stone-100 text-stone-500">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <button onclick="closeHistoryModal()" class="icon-button">
+                    <svg class="icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                 </button>
@@ -566,129 +507,14 @@
         </div>
     </div>
 
+    <script src="catalog.js"></script>
     <!-- ==================== JAVASCRIPT APPLICATION LOGIC ==================== -->
     <script>
         // --- 1. DATA KATALOG PRODUK ---
 
         // Kategori Beli Baru (Wajib 4 kategori: Stroller, Carseat, Babyswing, Gendongan)
-        const buyProducts = [
-            {
-                id: 'buy-1',
-                name: 'BabyElle Aero Cabin Stroller',
-                category: 'Stroller',
-                price: 1850000,
-                badge: 'Terlaris',
-                desc: 'Stroller lipat ringkas cabin-size, kanopi UPF 50+, suspensi empuk 4 roda.',
-                bg: 'from-peach-100 to-amber-50',
-                svg: `<svg class="w-20 h-20 text-peach-600" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="22" cy="50" r="5"/><circle cx="46" cy="50" r="5"/><path d="M10 16h6l7 24h23l5-16H21"/><path d="M34 24V12a12 12 0 0 1 12 12"/></svg>`
-            },
-            {
-                id: 'buy-2',
-                name: 'Joie Versatrax Reversible Stroller',
-                category: 'Stroller',
-                price: 3450000,
-                badge: 'Premium',
-                desc: 'Kursi hadap ibu & depan, posisi rebah penuh untuk newborn hingga 22 kg.',
-                bg: 'from-stone-200 to-stone-100',
-                svg: `<svg class="w-20 h-20 text-stone-700" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="20" cy="50" r="5"/><circle cx="46" cy="50" r="5"/><path d="M8 14h7l7 26h24l6-18H20"/><path d="M32 22c0-7 6-11 13-11v11"/></svg>`
-            },
-            {
-                id: 'buy-3',
-                name: 'Nuna Pipa Next ISOFIX Carseat',
-                category: 'Carseat',
-                price: 2950000,
-                badge: 'Standar ECE R129',
-                desc: 'Perlindungan benturan samping (SIP), busa memory foam lembut & instalasi ISOFIX.',
-                bg: 'from-sage-100 to-emerald-50',
-                svg: `<svg class="w-20 h-20 text-sage-700" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 14c0-3 3-5 6-5h6c4 0 7 3 7 7l3 18h10c3 0 5 2 5 5v5H16c-3 0-5-2-5-5V24c0-5 3-10 7-10z"/><path d="M24 24v12M32 24v12M20 30h16"/><path d="M14 48h38"/></svg>`
-            },
-            {
-                id: 'buy-4',
-                name: 'Chicco Fit4 4-in-1 Convertible Carseat',
-                category: 'Carseat',
-                price: 3650000,
-                badge: '0–10 Tahun',
-                desc: 'Tumbuh bersama si kecil dari bayi baru lahir (rear-facing) hingga booster seat.',
-                bg: 'from-sky-100 to-blue-50',
-                svg: `<svg class="w-20 h-20 text-sky-700" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12h12c4 0 7 3 7 7l2 17h9c3 0 5 2 5 5v4H15c-2 0-4-2-4-4V22c0-6 4-10 9-10z"/><circle cx="28" cy="28" r="4"/><path d="M14 49h36"/></svg>`
-            },
-            {
-                id: 'buy-5',
-                name: 'Nuna Leaf Grow Babyswing',
-                category: 'Babyswing',
-                price: 2750000,
-                badge: 'Tanpa Listrik',
-                desc: 'Ayunan lembut alami dengan satu dorongan, kain katun organik bersertifikat Oeko-Tex.',
-                bg: 'from-amber-100 to-orange-50',
-                svg: `<svg class="w-20 h-20 text-amber-700" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="32" cy="26" rx="18" ry="11" transform="rotate(-12 32 26)"/><path d="M32 37v13"/><path d="M18 50h28"/></svg>`
-            },
-            {
-                id: 'buy-6',
-                name: 'Cocolatte Snuggli Electric Babyswing',
-                category: 'Babyswing',
-                price: 1490000,
-                badge: '5 Kecepatan + Musik',
-                desc: 'Dilengkapi remote control, timer otomatis, melodi pengantar tidur, dan kelambu nyamuk.',
-                bg: 'from-rose-100 to-peach-50',
-                svg: `<svg class="w-20 h-20 text-rose-600" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 52L24 14h16l10 38"/><path d="M20 34c4 6 20 6 24 0"/><path d="M27 14v8M37 14v8"/></svg>`
-            },
-            {
-                id: 'buy-7',
-                name: 'Ergobaby Omni Breeze Baby Carrier',
-                category: 'Gendongan',
-                price: 2150000,
-                badge: 'M-Shape Ergonomis',
-                desc: 'Gendongan SoftFlex Mesh super adem, mendukung 4 posisi gendong sejak newborn.',
-                bg: 'from-teal-100 to-sage-50',
-                svg: `<svg class="w-20 h-20 text-teal-700" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12l6 10h12l6-10"/><path d="M18 22h28l-3 22H21L18 22z"/><path d="M16 44h32v6H16z"/><circle cx="32" cy="17" r="4"/></svg>`
-            },
-            {
-                id: 'buy-8',
-                name: 'Dialogue Hipseat Carrier Series',
-                category: 'Gendongan',
-                price: 485000,
-                badge: 'Hemat & Nyaman',
-                desc: 'Dudukan hipseat anti-selip menjaga postur tulang pinggul bayi dan punggung orang tua.',
-                bg: 'from-indigo-100 to-purple-50',
-                svg: `<svg class="w-20 h-20 text-indigo-700" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 14v10h20V14"/><rect x="18" y="24" width="28" height="16" rx="4"/><path d="M14 40h36v8H14z"/></svg>`
-            }
-        ];
-
-        // Kategori Sewa (HANYA 2 jenis: Stroller & Carseat)
-        const rentUnits = [
-            {
-                id: 'rent-1',
-                name: 'Bugaboo Butterfly Cabin Stroller',
-                category: 'Stroller',
-                rates: { '1w': 160000, '2w': 290000, '3w': 410000, '1m': 500000 },
-                spec: 'Ringan 7.3 kg • Cabin size • Cocok traveling',
-                icon: '🛒'
-            },
-            {
-                id: 'rent-2',
-                name: 'Stokke YOYO2 6+ Stroller',
-                category: 'Stroller',
-                rates: { '1w': 185000, '2w': 340000, '3w': 475000, '1m': 580000 },
-                spec: 'Lipat satu tangan • Suspensi Hytrel elastomer',
-                icon: '🛒'
-            },
-            {
-                id: 'rent-3',
-                name: 'Joie i-Spin 360 ISOFIX Carseat',
-                category: 'Carseat',
-                rates: { '1w': 150000, '2w': 275000, '3w': 390000, '1m': 480000 },
-                spec: 'Putar 360° • Newborn s/d 19 kg • ISOFIX',
-                icon: '💺'
-            },
-            {
-                id: 'rent-4',
-                name: 'Maxi-Cosi CabrioFix Infant Carseat',
-                category: 'Carseat',
-                rates: { '1w': 120000, '2w': 220000, '3w': 310000, '1m': 380000 },
-                spec: '0–13 kg • Ringan mudah dipindah ke stroller',
-                icon: '💺'
-            }
-        ];
+        let buyProducts = window.BloomyCatalog.load('sell');
+        let rentUnits = window.BloomyCatalog.load('rent');
 
         const durationMeta = {
             '1w': { label: '1 Minggu', days: 7 },
@@ -733,6 +559,21 @@
         let selectedRentUnitId = rentUnits[0].id;
         let currentSewaFilter = 'Semua';
         let transactions = JSON.parse(localStorage.getItem('BloomyLabel_transactions') || '[]');
+
+        function getReservedProductQty(productId) {
+            return transactions.reduce((total, tx) => {
+                if (tx.type === 'Beli Perlengkapan' && tx.status !== 'Dibatalkan') {
+                    const item = tx.reservedItems?.find(reserved => reserved.id === productId);
+                    return total + (item?.qty || 0);
+                }
+                return total;
+            }, 0);
+        }
+
+        function getAvailableProductQty(productId) {
+            const product = buyProducts.find(item => item.id === productId);
+            return Math.max(0, Number(product?.stock ?? 1) - getReservedProductQty(productId));
+        }
 
         // --- 3. HELPER FORMAT RUPIAH & TANGGAL ---
         function formatRupiah(num) {
@@ -785,28 +626,29 @@
         // --- 5. TAB 1: E-COMMERCE (BELI PERLENGKAPAN) ---
         function renderBuyProducts(category = 'Semua') {
             const grid = document.getElementById('beli-product-grid');
-            const filtered = category === 'Semua'
+            const filtered = (category === 'Semua'
                 ? buyProducts
-                : buyProducts.filter(p => p.category === category);
+                : buyProducts.filter(p => p.category === category))
+                .filter(product => getAvailableProductQty(product.id) > 0);
 
             grid.innerHTML = filtered.map(prod => `
                 <article class="bg-white rounded-2xl border border-stone-200/90 overflow-hidden flex flex-col card-hover">
                     <div class="relative h-44 bg-gradient-to-br ${prod.bg} flex items-center justify-center p-4">
                         <span class="absolute top-3 left-3 px-2.5 py-1 rounded-lg bg-white/90 text-ink text-[11px] font-bold shadow-2xs">
-                            ${prod.category}
+                            ${window.BloomyCatalog.escapeHtml(prod.category)}
                         </span>
-                        <span class="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-sage-600 text-white text-[10px] font-bold">
-                            ${prod.badge}
-                        </span>
-                        ${prod.svg}
+                        ${prod.badge ? `<span class="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-sage-600 text-white text-[10px] font-bold">${window.BloomyCatalog.escapeHtml(prod.badge)}</span>` : ''}
+                        ${prod.imageUrl
+                            ? `<img class="h-full w-full object-contain" src="${window.BloomyCatalog.escapeHtml(prod.imageUrl)}" alt="${window.BloomyCatalog.escapeHtml(prod.name)}">`
+                            : (prod.svg || `<span class="text-6xl">${window.BloomyCatalog.escapeHtml(prod.icon || '🧸')}</span>`)}
                     </div>
                     <div class="p-4 flex-1 flex flex-col justify-between">
                         <div>
                             <div class="flex items-center gap-1.5 text-[11px] text-emerald-700 font-semibold mb-1">
                                 <span>● Kondisi: Baru</span>
                             </div>
-                            <h3 class="font-display font-bold text-base text-ink leading-snug">${prod.name}</h3>
-                            <p class="text-xs text-stone-500 mt-1.5 line-clamp-2 leading-relaxed">${prod.desc}</p>
+                            <h3 class="font-display font-bold text-base text-ink leading-snug">${window.BloomyCatalog.escapeHtml(prod.name)}</h3>
+                            <p class="text-xs text-stone-500 mt-1.5 line-clamp-2 leading-relaxed">${window.BloomyCatalog.escapeHtml(prod.desc)}</p>
                         </div>
                         <div class="mt-4 pt-3 border-t border-stone-100">
                             <div class="font-display font-extrabold text-lg text-peach-600 mb-2.5">
@@ -838,6 +680,10 @@
             if (!product) return;
 
             const existing = cart.find(item => item.id === productId);
+            if ((existing?.qty || 0) >= getAvailableProductQty(productId)) {
+                showToast('Stok produk tidak mencukupi', '⚠️');
+                return;
+            }
             if (existing) {
                 existing.qty += 1;
             } else {
@@ -851,6 +697,10 @@
             const idx = cart.findIndex(item => item.id === productId);
             if (idx === -1) return;
 
+            if (delta > 0 && cart[idx].qty >= getAvailableProductQty(productId)) {
+                showToast('Stok produk tidak mencukupi', '⚠️');
+                return;
+            }
             cart[idx].qty += delta;
             if (cart[idx].qty <= 0) {
                 cart.splice(idx, 1);
@@ -890,7 +740,7 @@
                 container.innerHTML = `
                     <div class="h-full flex flex-col items-center justify-center text-center py-12">
                         <div class="text-4xl mb-3">🛒</div>
-                        <h4 class="font-display font-bold text-base text-ink">Keranjang Masih Kosong</h4>
+                        <h4 class="card-heading">Keranjang Masih Kosong</h4>
                         <p class="text-xs text-stone-500 mt-1 max-w-xs">Pilih perlengkapan bayi baru di tab Beli Perlengkapan untuk mulai berbelanja.</p>
                     </div>
                 `;
@@ -902,13 +752,13 @@
                 <div class="flex items-center justify-between gap-3 p-3 rounded-2xl bg-cream border border-stone-200/80">
                     <div class="min-w-0 flex-1">
                         <span class="text-[10px] font-bold uppercase text-sage-600">${item.category}</span>
-                        <h4 class="font-bold text-sm text-ink truncate">${item.name}</h4>
+                        <h4 class="truncated-title">${item.name}</h4>
                         <div class="text-xs font-bold text-peach-600 mt-0.5">${formatRupiah(item.price)}</div>
                     </div>
                     <div class="flex items-center gap-2 bg-white border border-stone-200 rounded-xl px-2 py-1">
-                        <button onclick="updateCartQty('${item.id}', -1)" class="w-6 h-6 rounded-lg hover:bg-stone-100 font-bold text-stone-600">-</button>
+                        <button onclick="updateCartQty('${item.id}', -1)" class="close-button">-</button>
                         <span class="text-xs font-bold w-5 text-center">${item.qty}</span>
-                        <button onclick="updateCartQty('${item.id}', 1)" class="w-6 h-6 rounded-lg hover:bg-stone-100 font-bold text-stone-600">+</button>
+                        <button onclick="updateCartQty('${item.id}', 1)" class="close-button">+</button>
                     </div>
                 </div>
             `).join('');
@@ -948,6 +798,13 @@
             const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
             const shipping = deliveryMode === 'kirim' ? Number(document.getElementById('cart-zone').value) : 0;
             const grandTotal = subtotal + shipping;
+            const unavailableItem = cart.find(item => item.qty > getAvailableProductQty(item.id));
+            if (unavailableItem) {
+                showToast(`${unavailableItem.name} sudah tidak tersedia. Perbarui keranjang Anda.`, '⚠️');
+                renderBuyProducts();
+                renderCart();
+                return;
+            }
 
             const tx = {
                 id: 'INV-BELI-' + Math.floor(1000 + Math.random() * 9000),
@@ -958,6 +815,7 @@
                 method: deliveryMode === 'kirim' ? 'Kirim ke Alamat' : 'Pick Up di Toko',
                 address: deliveryMode === 'kirim' ? address : 'Ambil di Toko Bloomy Label',
                 itemsSummary: cart.map(i => `${i.name} (${i.qty}x)`).join(', '),
+                reservedItems: cart.map(i => ({ id: i.id, qty: i.qty })),
                 subtotal,
                 shipping,
                 total: grandTotal
@@ -976,28 +834,29 @@
             const filtered = currentSewaFilter === 'Semua'
                 ? rentUnits
                 : rentUnits.filter(u => u.category === currentSewaFilter);
+            const available = filtered.filter(unit => Number(unit.stock ?? 1) > 0);
 
-            container.innerHTML = filtered.map(unit => {
+            container.innerHTML = available.map(unit => {
                 const isSelected = unit.id === selectedRentUnitId;
                 return `
                     <div onclick="selectRentUnit('${unit.id}')" class="cursor-pointer p-4 rounded-xl border-2 transition ${isSelected ? 'border-sage-600 bg-sage-50/70' : 'border-stone-200 hover:border-sage-300 bg-white'}">
                         <div class="flex items-start justify-between gap-2">
                             <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] font-bold ${unit.category === 'Stroller' ? 'bg-peach-100 text-peach-600' : 'bg-sky-100 text-sky-700'}">
-                                ${unit.icon} ${unit.category}
+                                ${window.BloomyCatalog.escapeHtml(unit.icon || '🧸')} ${window.BloomyCatalog.escapeHtml(unit.category)}
                             </span>
                             <span class="w-4 h-4 rounded-full border-2 flex items-center justify-center ${isSelected ? 'border-sage-600' : 'border-stone-300'}">
                                 ${isSelected ? '<span class="w-2 h-2 rounded-full bg-sage-600"></span>' : ''}
                             </span>
                         </div>
-                        <h4 class="font-display font-bold text-sm text-ink mt-2">${unit.name}</h4>
-                        <p class="text-[11px] text-stone-500 mt-0.5">${unit.spec}</p>
+                        <h4 class="font-display font-bold text-sm text-ink mt-2">${window.BloomyCatalog.escapeHtml(unit.name)}</h4>
+                        <p class="text-[11px] text-stone-500 mt-0.5">${window.BloomyCatalog.escapeHtml(unit.spec || unit.desc || '')}</p>
                         <div class="mt-3 pt-2 border-t border-stone-200/70 flex items-center justify-between text-xs">
-                            <span class="text-stone-500">Mulai <strong class="text-ink">${formatRupiah(unit.rates['1w'])}</strong>/mgg</span>
+                            <span class="muted-text">Mulai <strong class="text-ink">${formatRupiah(unit.rates['1w'])}</strong>/mgg</span>
                             <span class="text-sage-700 font-bold">${formatRupiah(unit.rates['1m'])}/bln</span>
                         </div>
                     </div>
                 `;
-            }).join('');
+            }).join('') || '<p class="col-span-full text-sm text-stone-500">Belum ada unit sewa yang tersedia.</p>';
         }
 
         function filterSewaUnit(cat) {
@@ -1011,8 +870,9 @@
 
             // Pastikan unit terpilih sesuai filter
             const filtered = cat === 'Semua' ? rentUnits : rentUnits.filter(u => u.category === cat);
-            if (filtered.length > 0 && !filtered.some(u => u.id === selectedRentUnitId)) {
-                selectedRentUnitId = filtered[0].id;
+            const available = filtered.filter(unit => Number(unit.stock ?? 1) > 0);
+            if (available.length > 0 && !available.some(u => u.id === selectedRentUnitId)) {
+                selectedRentUnitId = available[0].id;
             }
             renderSewaUnits();
             updateSewaSummary();
@@ -1041,7 +901,17 @@
         }
 
         function updateSewaSummary() {
-            const unit = rentUnits.find(u => u.id === selectedRentUnitId) || rentUnits[0];
+            const unit = rentUnits.find(u => u.id === selectedRentUnitId && Number(u.stock ?? 1) > 0)
+                || rentUnits.find(item => Number(item.stock ?? 1) > 0);
+            if (!unit) {
+                document.getElementById('summary-sewa-name').textContent = 'Tidak ada unit tersedia';
+                document.getElementById('summary-sewa-rent-cost').textContent = 'Rp 0';
+                document.getElementById('summary-sewa-total').textContent = 'Rp 0';
+                document.getElementById('summary-sewa-shipping-cost').textContent = 'Rp 0';
+                selectedRentUnitId = null;
+                return;
+            }
+            selectedRentUnitId = unit.id;
 
             // Update harga di 4 kartu pilihan durasi (1w, 2w, 3w, 1m)
             document.getElementById('dur-price-1w').textContent = formatRupiah(unit.rates['1w']);
@@ -1097,7 +967,11 @@
         }
 
         function submitSewaBooking() {
-            const unit = rentUnits.find(u => u.id === selectedRentUnitId) || rentUnits[0];
+            const unit = rentUnits.find(u => u.id === selectedRentUnitId && Number(u.stock ?? 1) > 0);
+            if (!unit) {
+                showToast('Tidak ada unit sewa yang tersedia saat ini', '⚠️');
+                return;
+            }
             const durKey = document.querySelector('input[name="sewa_duration"]:checked').value;
             const durInfo = durationMeta[durKey];
             const deliveryMode = document.querySelector('input[name="sewa_delivery"]:checked').value;
@@ -1166,11 +1040,11 @@
                             ${item.icon}
                         </div>
                         <div>
-                            <div class="flex items-center gap-2">
+                            <div class="inline-group">
                                 <h4 class="font-display font-bold text-sm text-ink">${item.name}</h4>
                                 <span class="text-[10px] font-bold px-2 py-0.5 rounded-md bg-stone-100 text-stone-600">${item.category}</span>
                             </div>
-                            <p class="text-xs text-stone-500 mt-0.5">${item.desc}</p>
+                            <p class="field-hint">${item.desc}</p>
                             <div class="text-xs font-extrabold text-sky-700 mt-1.5">${formatRupiah(item.price)} / unit</div>
                         </div>
                     </div>
@@ -1310,27 +1184,27 @@
             document.getElementById('receipt-type-badge').textContent = tx.type;
             document.getElementById('receipt-id').textContent = `${tx.id} • Status: Dikonfirmasi`;
             document.getElementById('receipt-body').innerHTML = `
-                <div class="flex justify-between gap-2">
-                    <span class="text-stone-500">Pemesan</span>
+                <div class="between-row">
+                    <span class="muted-text">Pemesan</span>
                     <span class="font-bold text-ink text-right">${tx.customer}</span>
                 </div>
-                <div class="flex justify-between gap-2">
-                    <span class="text-stone-500">WhatsApp / Telepon</span>
-                    <span class="font-semibold text-ink text-right">${tx.phone || '-'}</span>
+                <div class="between-row">
+                    <span class="muted-text">WhatsApp / Telepon</span>
+                    <span class="price-value">${tx.phone || '-'}</span>
                 </div>
-                <div class="flex justify-between gap-2">
-                    <span class="text-stone-500">Tanggal / Periode</span>
-                    <span class="font-semibold text-ink text-right">${tx.date}</span>
+                <div class="between-row">
+                    <span class="muted-text">Tanggal / Periode</span>
+                    <span class="price-value">${tx.date}</span>
                 </div>
-                <div class="flex justify-between gap-2">
-                    <span class="text-stone-500">Metode</span>
+                <div class="between-row">
+                    <span class="muted-text">Metode</span>
                     <span class="font-semibold text-sage-700 text-right">${tx.method}</span>
                 </div>
-                <div class="flex justify-between gap-2">
-                    <span class="text-stone-500">Pembayaran</span>
-                    <span class="font-semibold text-ink text-right">${tx.paymentMethod || 'Transfer Bank'}</span>
+                <div class="between-row">
+                    <span class="muted-text">Pembayaran</span>
+                    <span class="price-value">${tx.paymentMethod || 'Transfer Bank'}</span>
                 </div>
-                <div class="flex justify-between gap-2">
+                <div class="between-row">
                     <span class="text-stone-500 shrink-0">Lokasi / Alamat</span>
                     <span class="font-medium text-ink text-right text-xs">${tx.address}</span>
                 </div>
@@ -1339,11 +1213,11 @@
                     <p class="font-semibold text-ink text-xs">${tx.itemsSummary}</p>
                 </div>
                 <div class="pt-2 border-t border-dashed border-stone-300 space-y-1">
-                    <div class="flex justify-between text-stone-600 text-xs">
+                    <div class="text-row">
                         <span>Biaya Utama</span>
                         <span>${formatRupiah(tx.subtotal)}</span>
                     </div>
-                    <div class="flex justify-between text-stone-600 text-xs">
+                    <div class="text-row">
                         <span>Ongkos Kirim / Jemput</span>
                         <span>${formatRupiah(tx.shipping)}</span>
                     </div>
@@ -1366,7 +1240,7 @@
                 container.innerHTML = `
                     <div class="text-center py-12">
                         <div class="text-4xl mb-2">📋</div>
-                        <h4 class="font-display font-bold text-base text-ink">Belum Ada Riwayat Transaksi</h4>
+                        <h4 class="card-heading">Belum Ada Riwayat Transaksi</h4>
                         <p class="text-xs text-stone-500 mt-1">Transaksi Beli, Sewa, atau Laundry Anda akan tampil lengkap di sini.</p>
                     </div>
                 `;
@@ -1374,7 +1248,7 @@
                 container.innerHTML = transactions.map(tx => `
                     <div class="p-4 rounded-2xl bg-cream border border-stone-200/90 space-y-2">
                         <div class="flex flex-wrap items-center justify-between gap-2">
-                            <div class="flex items-center gap-2">
+                            <div class="inline-group">
                                 <span class="px-2.5 py-0.5 rounded-lg bg-sage-600 text-white text-[11px] font-bold">${tx.type}</span>
                                 <span class="text-xs font-mono text-stone-500">${tx.id}</span>
                             </div>
@@ -1388,7 +1262,7 @@
                             <div>💳 Pembayaran: <strong>${tx.paymentMethod || 'Belum tercatat'}</strong></div>
                         </div>
                         <div class="pt-2 border-t border-stone-200/80 flex items-center justify-between text-xs">
-                            <span class="text-stone-500">Biaya: ${formatRupiah(tx.subtotal)} + Ongkir: ${formatRupiah(tx.shipping)}</span>
+                            <span class="muted-text">Biaya: ${formatRupiah(tx.subtotal)} + Ongkir: ${formatRupiah(tx.shipping)}</span>
                             <span class="font-display font-extrabold text-sm text-peach-600">Total: ${formatRupiah(tx.total)}</span>
                         </div>
                     </div>
@@ -1426,6 +1300,26 @@
                 updateLaundrySummary();
             }
             updateHistoryBadge();
+        });
+
+        window.addEventListener('storage', event => {
+            if (event.key === window.BloomyCatalog.keys.sell) {
+                buyProducts = window.BloomyCatalog.load('sell');
+                if (document.getElementById('beli-product-grid')) renderBuyProducts();
+                renderCart();
+            } else if (event.key === window.BloomyCatalog.keys.rent) {
+                rentUnits = window.BloomyCatalog.load('rent');
+                if (!rentUnits.some(unit => unit.id === selectedRentUnitId)) {
+                    selectedRentUnitId = rentUnits.find(unit => Number(unit.stock ?? 1) > 0)?.id || null;
+                }
+                renderSewaUnits();
+                updateSewaSummary();
+            } else if (event.key === 'BloomyLabel_transactions') {
+                transactions = JSON.parse(event.newValue || '[]');
+                if (document.getElementById('beli-product-grid')) renderBuyProducts();
+                renderCart();
+                updateHistoryBadge();
+            }
         });
     </script>
 </body>

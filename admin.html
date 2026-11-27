@@ -4,29 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin — Bloomy Label</title>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        display: ['Plus Jakarta Sans', 'sans-serif']
-                    },
-                    colors: {
-                        cream: '#FAF7F4',
-                        peach: { 50: '#FFF5F1', 500: '#E8734A', 600: '#D35B31' },
-                        sage: { 50: '#F2F7F4', 100: '#E1ECE5', 600: '#3C614F', 700: '#2D4A3C' },
-                        ink: '#232629'
-                    }
-                }
-            }
-        };
-    </script>
+    <script src="catalog.js"></script>
 </head>
 <body class="font-sans antialiased min-h-screen bg-stone-100 text-ink">
     <div id="login-screen" class="min-h-screen flex items-center justify-center p-4">
@@ -61,6 +43,12 @@
         </header>
 
         <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+            <nav class="flex flex-wrap gap-2 mb-6" aria-label="Menu admin">
+                <button id="admin-tab-orders" onclick="showAdminView('orders')" class="admin-view-tab is-active">Pesanan</button>
+                <button id="admin-tab-products" onclick="showAdminView('products', 'sell')" class="admin-view-tab">Produk</button>
+            </nav>
+
+            <div id="orders-view">
             <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
                 <div>
                     <p class="text-sm font-semibold text-sage-700">Dashboard</p>
@@ -70,10 +58,10 @@
             </div>
 
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6">
-                <div class="bg-white border border-stone-200 rounded-2xl p-4"><p class="text-xs text-stone-500">Total Pesanan</p><p id="stat-total" class="mt-1 font-display text-2xl font-extrabold">0</p></div>
-                <div class="bg-white border border-stone-200 rounded-2xl p-4"><p class="text-xs text-stone-500">Total Pendapatan</p><p id="stat-revenue" class="mt-1 font-display text-lg sm:text-xl font-extrabold text-peach-600">Rp 0</p></div>
-                <div class="bg-white border border-stone-200 rounded-2xl p-4"><p class="text-xs text-stone-500">Belanja Baru</p><p id="stat-buy" class="mt-1 font-display text-2xl font-extrabold">0</p></div>
-                <div class="bg-white border border-stone-200 rounded-2xl p-4"><p class="text-xs text-stone-500">Sewa + Laundry</p><p id="stat-service" class="mt-1 font-display text-2xl font-extrabold">0</p></div>
+                <div class="compact-panel"><p class="helper-text">Total Pesanan</p><p id="stat-total" class="mt-1 font-display text-2xl font-extrabold">0</p></div>
+                <div class="compact-panel"><p class="helper-text">Total Pendapatan</p><p id="stat-revenue" class="mt-1 font-display text-lg sm:text-xl font-extrabold text-peach-600">Rp 0</p></div>
+                <div class="compact-panel"><p class="helper-text">Belanja Baru</p><p id="stat-buy" class="mt-1 font-display text-2xl font-extrabold">0</p></div>
+                <div class="compact-panel"><p class="helper-text">Sewa + Laundry</p><p id="stat-service" class="mt-1 font-display text-2xl font-extrabold">0</p></div>
             </div>
 
             <div class="bg-white border border-stone-200 rounded-2xl p-4 sm:p-5">
@@ -104,11 +92,105 @@
                     </table>
                 </div>
             </div>
+            </div>
+
+            <section id="products-view" class="hidden">
+                <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+                    <div>
+                        <p class="text-sm font-semibold text-sage-700">Katalog</p>
+                        <h1 class="font-display text-2xl sm:text-3xl font-extrabold">Kelola Produk</h1>
+                        <p class="text-sm text-stone-500 mt-1">Perubahan disimpan di browser ini dan langsung digunakan halaman toko.</p>
+                    </div>
+                    <button id="add-product-button" onclick="openProductForm()" class="px-4 py-2.5 rounded-xl bg-sage-600 hover:bg-sage-700 text-white font-semibold text-sm">+ Tambah Produk</button>
+                </div>
+
+                <div class="flex gap-2 mb-4">
+                    <button id="product-tab-sell" onclick="showProductType('sell')" class="admin-view-tab is-active">Produk Jual</button>
+                    <button id="product-tab-rent" onclick="showProductType('rent')" class="admin-view-tab">Produk Sewa</button>
+                </div>
+                <div id="product-list" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"></div>
+            </section>
         </main>
+    </div>
+
+    <div id="product-form-modal" class="modal hidden">
+        <div class="modal-backdrop" onclick="closeProductForm()"></div>
+        <div class="relative bg-white rounded-3xl max-w-2xl w-full p-5 sm:p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between mb-5">
+                <h2 id="product-form-title" class="panel-title">Tambah Produk</h2>
+                <button type="button" onclick="closeProductForm()" class="icon-button" aria-label="Tutup">✕</button>
+            </div>
+            <form id="product-form" class="space-y-4">
+                <input id="product-id" type="hidden">
+                <input id="product-type" type="hidden">
+                <div>
+                    <label class="form-label" for="product-name">Nama produk</label>
+                    <input id="product-name" class="form-control" required maxlength="100">
+                </div>
+                <div>
+                    <label class="form-label" for="product-category">Kategori</label>
+                    <select id="product-category" class="form-control" required></select>
+                </div>
+                <div id="sell-product-fields" class="space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="form-label" for="product-price">Harga jual (Rp)</label>
+                            <input id="product-price" type="number" min="1000" step="1000" class="form-control">
+                        </div>
+                        <div>
+                            <label class="form-label" for="product-stock">Stok</label>
+                            <input id="product-stock" type="number" min="0" step="1" class="form-control">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="form-label" for="product-badge">Label produk</label>
+                        <input id="product-badge" class="form-control" maxlength="40" placeholder="Contoh: Terlaris">
+                    </div>
+                    <div>
+                        <label class="form-label" for="product-image">URL foto (opsional)</label>
+                        <input id="product-image" type="url" class="form-control" placeholder="https://...">
+                    </div>
+                </div>
+                <div id="rent-product-fields" class="hidden space-y-4">
+                    <div class="grid grid-cols-2 gap-3">
+                        <div><label class="form-label" for="rent-rate-1w">Harga 1 minggu</label><input id="rent-rate-1w" type="number" min="1000" step="1000" class="form-control"></div>
+                        <div><label class="form-label" for="rent-rate-2w">Harga 2 minggu</label><input id="rent-rate-2w" type="number" min="1000" step="1000" class="form-control"></div>
+                        <div><label class="form-label" for="rent-rate-3w">Harga 3 minggu</label><input id="rent-rate-3w" type="number" min="1000" step="1000" class="form-control"></div>
+                        <div><label class="form-label" for="rent-rate-1m">Harga 1 bulan</label><input id="rent-rate-1m" type="number" min="1000" step="1000" class="form-control"></div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="form-label" for="rent-stock">Jumlah unit</label>
+                            <input id="rent-stock" type="number" min="0" step="1" class="form-control">
+                        </div>
+                        <div>
+                            <label class="form-label" for="rent-icon">Ikon</label>
+                            <input id="rent-icon" class="form-control" maxlength="8" placeholder="🛒">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="form-label" for="rent-spec">Spesifikasi</label>
+                        <input id="rent-spec" class="form-control" maxlength="140">
+                    </div>
+                </div>
+                <div>
+                    <label class="form-label" for="product-description">Deskripsi</label>
+                    <textarea id="product-description" rows="3" class="form-control" maxlength="500"></textarea>
+                </div>
+                <p id="product-form-error" class="hidden text-sm text-red-600" role="alert"></p>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeProductForm()" class="px-4 py-2 rounded-xl border border-stone-200 font-semibold text-sm">Batal</button>
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-sage-600 hover:bg-sage-700 text-white font-semibold text-sm">Simpan Produk</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script>
         let transactions = JSON.parse(localStorage.getItem('BloomyLabel_transactions') || '[]');
+        let productType = 'sell';
+        let sellProducts = window.BloomyCatalog.load('sell');
+        let rentProducts = window.BloomyCatalog.load('rent');
 
         function formatRupiah(num) {
             return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(num);
@@ -118,6 +200,217 @@
             return String(value ?? '').replace(/[&<>"']/g, char => ({
                 '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
             })[char]);
+        }
+
+        function productsForType(type = productType) {
+            return type === 'sell' ? sellProducts : rentProducts;
+        }
+
+        function saveProducts(type, products) {
+            window.BloomyCatalog.save(type, products);
+            if (type === 'sell') sellProducts = products;
+            else rentProducts = products;
+            renderProducts();
+        }
+
+        function showAdminView(view, type = productType) {
+            const showProducts = view === 'products';
+            document.getElementById('orders-view').classList.toggle('hidden', showProducts);
+            document.getElementById('products-view').classList.toggle('hidden', !showProducts);
+            document.getElementById('admin-tab-orders').classList.toggle('is-active', !showProducts);
+            document.getElementById('admin-tab-products').classList.toggle('is-active', showProducts);
+            if (showProducts) showProductType(type);
+        }
+
+        function showProductType(type) {
+            productType = type;
+            document.getElementById('product-tab-sell').classList.toggle('is-active', type === 'sell');
+            document.getElementById('product-tab-rent').classList.toggle('is-active', type === 'rent');
+            renderProducts();
+        }
+
+        function renderProducts() {
+            const products = productsForType();
+            const container = document.getElementById('product-list');
+            if (products.length === 0) {
+                container.innerHTML = '<div class="catalog-empty">Belum ada produk. Tekan “Tambah Produk” untuk mulai mengisi katalog.</div>';
+                return;
+            }
+
+            container.innerHTML = products.map(product => {
+                const price = productType === 'sell'
+                    ? formatRupiah(product.price)
+                    : `${formatRupiah(product.rates['1w'])} / minggu`;
+                const stockLabel = productType === 'sell' ? 'Stok' : 'Unit';
+                const badge = productType === 'sell' && product.badge
+                    ? `<span class="catalog-badge">${escapeHtml(product.badge)}</span>`
+                    : '';
+                const image = product.imageUrl
+                    ? `<img class="catalog-image" src="${escapeHtml(product.imageUrl)}" alt="${escapeHtml(product.name)}">`
+                    : `<div class="catalog-image catalog-placeholder">${escapeHtml(product.icon || '🧸')}</div>`;
+                const detail = productType === 'sell'
+                    ? escapeHtml(product.desc)
+                    : escapeHtml(product.spec || product.desc);
+                return `
+                    <article class="catalog-card">
+                        ${image}
+                        <div class="catalog-card-body">
+                            <div class="flex items-start justify-between gap-2">
+                                <span class="catalog-category">${escapeHtml(product.category)}</span>
+                                ${badge}
+                            </div>
+                            <h3 class="font-display font-bold text-ink mt-2">${escapeHtml(product.name)}</h3>
+                            <p class="text-sm text-stone-500 mt-1">${detail}</p>
+                            <div class="flex items-center justify-between gap-2 mt-4">
+                                <strong class="text-peach-600">${price}</strong>
+                                <span class="text-xs text-stone-500">${stockLabel}: ${Number(product.stock) || 0}</span>
+                            </div>
+                            <div class="flex gap-2 mt-4">
+                                <button onclick="openProductForm('${escapeHtml(product.id)}')" class="catalog-action">Edit</button>
+                                <button onclick="deleteProduct('${escapeHtml(product.id)}')" class="catalog-action catalog-action-delete">Hapus</button>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        function openProductForm(productId = '') {
+            const product = productsForType().find(item => item.id === productId);
+            const categories = productType === 'sell'
+                ? ['Stroller', 'Carseat', 'Babyswing', 'Gendongan']
+                : ['Stroller', 'Carseat'];
+            const categoryInput = document.getElementById('product-category');
+            categoryInput.innerHTML = categories.map(category =>
+                `<option value="${category}">${category}</option>`
+            ).join('');
+
+            document.getElementById('product-form').reset();
+            document.getElementById('product-id').value = product?.id || '';
+            document.getElementById('product-type').value = productType;
+            document.getElementById('product-form-title').textContent = product ? 'Edit Produk' : 'Tambah Produk';
+            document.getElementById('sell-product-fields').classList.toggle('hidden', productType !== 'sell');
+            document.getElementById('rent-product-fields').classList.toggle('hidden', productType !== 'rent');
+            document.getElementById('product-form-error').classList.add('hidden');
+
+            if (product) {
+                document.getElementById('product-name').value = product.name;
+                categoryInput.value = product.category;
+                document.getElementById('product-description').value = product.desc || (productType === 'rent' ? product.spec : '') || '';
+                if (productType === 'sell') {
+                    document.getElementById('product-price').value = product.price;
+                    document.getElementById('product-stock').value = product.stock ?? 1;
+                    document.getElementById('product-badge').value = product.badge || '';
+                    document.getElementById('product-image').value = product.imageUrl || '';
+                } else {
+                    document.getElementById('rent-stock').value = product.stock ?? 1;
+                    document.getElementById('rent-icon').value = product.icon || '🧸';
+                    document.getElementById('rent-spec').value = product.spec || '';
+                    ['1w', '2w', '3w', '1m'].forEach(duration => {
+                        document.getElementById(`rent-rate-${duration}`).value = product.rates?.[duration] || '';
+                    });
+                }
+            } else {
+                if (productType === 'sell') document.getElementById('product-stock').value = 1;
+                else {
+                    document.getElementById('rent-stock').value = 1;
+                    document.getElementById('rent-icon').value = '🛒';
+                }
+            }
+            document.getElementById('product-form-modal').classList.remove('hidden');
+            document.getElementById('product-name').focus();
+        }
+
+        function closeProductForm() {
+            document.getElementById('product-form-modal').classList.add('hidden');
+        }
+
+        document.getElementById('product-form').addEventListener('submit', event => {
+            event.preventDefault();
+            const error = document.getElementById('product-form-error');
+            const currentProducts = productsForType();
+            const productId = document.getElementById('product-id').value;
+            const existing = currentProducts.find(item => item.id === productId);
+            const name = document.getElementById('product-name').value.trim();
+            const desc = document.getElementById('product-description').value.trim();
+            const category = document.getElementById('product-category').value;
+            const stock = Number(document.getElementById(productType === 'sell' ? 'product-stock' : 'rent-stock').value);
+            if (!name || (productType === 'sell' && !desc) || !Number.isInteger(stock) || stock < 0) {
+                error.textContent = 'Nama, deskripsi jual, dan jumlah stok/unit harus valid.';
+                error.classList.remove('hidden');
+                return;
+            }
+
+            let product;
+            if (productType === 'sell') {
+                const price = Number(document.getElementById('product-price').value);
+                const imageUrl = document.getElementById('product-image').value.trim();
+                if (!Number.isFinite(price) || price <= 0) {
+                    error.textContent = 'Harga jual harus lebih besar dari 0.';
+                    error.classList.remove('hidden');
+                    return;
+                }
+                if (imageUrl && !/^https?:\/\//i.test(imageUrl)) {
+                    error.textContent = 'URL foto harus diawali http:// atau https://.';
+                    error.classList.remove('hidden');
+                    return;
+                }
+                product = {
+                    ...(existing || {}),
+                    id: existing?.id || `buy-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+                    name,
+                    category,
+                    desc,
+                    price,
+                    stock,
+                    badge: document.getElementById('product-badge').value.trim(),
+                    imageUrl,
+                    bg: existing?.bg || 'from-peach-100 to-amber-50'
+                };
+            } else {
+                const rates = Object.fromEntries(['1w', '2w', '3w', '1m'].map(duration => [
+                    duration,
+                    Number(document.getElementById(`rent-rate-${duration}`).value)
+                ]));
+                if (Object.values(rates).some(price => !Number.isFinite(price) || price <= 0)) {
+                    error.textContent = 'Semua harga paket sewa harus lebih besar dari 0.';
+                    error.classList.remove('hidden');
+                    return;
+                }
+                product = {
+                    ...(existing || {}),
+                    id: existing?.id || `rent-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
+                    name,
+                    category,
+                    desc,
+                    spec: document.getElementById('rent-spec').value.trim(),
+                    rates,
+                    stock,
+                    icon: document.getElementById('rent-icon').value.trim() || '🧸'
+                };
+            }
+
+            const nextProducts = existing
+                ? currentProducts.map(item => item.id === existing.id ? product : item)
+                : [...currentProducts, product];
+            try {
+                saveProducts(productType, nextProducts);
+                closeProductForm();
+            } catch (saveError) {
+                console.error('Unable to save product catalog', saveError);
+                error.textContent = 'Produk gagal disimpan. Periksa penyimpanan browser dan coba lagi.';
+                error.classList.remove('hidden');
+            }
+        });
+
+        function deleteProduct(productId) {
+            const product = productsForType().find(item => item.id === productId);
+            if (productType === 'rent' && rentProducts.length <= 1) {
+                alert('Minimal harus ada satu produk sewa di katalog.');
+                return;
+            }
+            if (!product || !confirm(`Hapus produk "${product.name}" dari katalog?`)) return;
+            saveProducts(productType, productsForType().filter(item => item.id !== productId));
         }
 
         function whatsappNumber(phone) {
@@ -238,7 +531,7 @@
                         </td>
                         <td class="py-4 px-4">
                             <strong class="block">${escapeHtml(tx.customer)}</strong>
-                            <span class="text-xs text-stone-500">${escapeHtml(tx.date)}</span>
+                            <span class="helper-text">${escapeHtml(tx.date)}</span>
                         </td>
                         <td class="py-4 px-4 whitespace-nowrap">
                             ${tx.phone ? `<a class="inline-flex items-center gap-1 text-emerald-700 hover:underline font-semibold" href="https://wa.me/${whatsappNumber(tx.phone)}" target="_blank" rel="noopener noreferrer">💬 ${escapeHtml(tx.phone)}</a>` : '<span class="text-stone-400">Belum ada nomor</span>'}
@@ -289,9 +582,16 @@
         }, 60000);
 
         window.addEventListener('storage', event => {
-            if (event.key !== 'BloomyLabel_transactions') return;
-            transactions = JSON.parse(event.newValue || '[]');
-            renderOrders();
+            if (event.key === 'BloomyLabel_transactions') {
+                transactions = JSON.parse(event.newValue || '[]');
+                renderOrders();
+            } else if (event.key === window.BloomyCatalog.keys.sell) {
+                sellProducts = window.BloomyCatalog.load('sell');
+                if (productType === 'sell') renderProducts();
+            } else if (event.key === window.BloomyCatalog.keys.rent) {
+                rentProducts = window.BloomyCatalog.load('rent');
+                if (productType === 'rent') renderProducts();
+            }
         });
     </script>
 </body>

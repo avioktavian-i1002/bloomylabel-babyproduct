@@ -1,0 +1,220 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .muted-text {
+        @apply text-stone-500;
+    }
+
+    .helper-text {
+        @apply text-xs text-stone-500;
+    }
+
+    .form-label {
+        @apply block text-xs font-semibold text-stone-700 mb-1;
+    }
+
+    .form-control {
+        @apply w-full px-3 py-2 rounded-xl border border-stone-300 bg-white text-xs;
+    }
+
+    .between-row {
+        @apply flex justify-between gap-2;
+    }
+
+    .inline-group {
+        @apply flex items-center gap-2;
+    }
+
+    .icon {
+        @apply w-5 h-5;
+    }
+
+    .icon-button {
+        @apply p-2 rounded-xl hover:bg-stone-100 text-stone-500;
+    }
+
+    .modal {
+        @apply fixed inset-0 z-50 flex items-center justify-center p-4;
+    }
+
+    .modal-backdrop {
+        @apply absolute inset-0 bg-black/50 backdrop-blur-xs;
+    }
+
+    .panel {
+        @apply bg-white rounded-2xl p-5 sm:p-6 border border-stone-200/90 shadow-2xs;
+    }
+
+    .compact-panel {
+        @apply bg-white border border-stone-200 rounded-2xl p-4;
+    }
+
+    .section-title {
+        @apply text-xl sm:text-2xl mb-1;
+    }
+
+    .small-card-title {
+        @apply font-bold text-xs sm:text-sm text-ink;
+    }
+
+    .card-title {
+        @apply font-bold text-sm text-ink;
+    }
+
+    .field-hint {
+        @apply text-xs text-stone-500 mt-0.5;
+    }
+
+    .price-value {
+        @apply font-semibold text-ink text-right;
+    }
+
+    .choice-grid {
+        @apply grid grid-cols-2 gap-2;
+    }
+
+    .panel-title {
+        @apply font-display text-xl font-extrabold text-ink;
+    }
+
+    .card-heading {
+        @apply font-display font-bold text-base text-ink;
+    }
+
+    .text-row {
+        @apply flex justify-between text-stone-600 text-xs;
+    }
+
+    .section-heading {
+        @apply font-display font-bold text-lg text-ink;
+    }
+
+    .confirmed-status {
+        @apply font-semibold text-emerald-600;
+    }
+
+    .close-button {
+        @apply w-6 h-6 rounded-lg hover:bg-stone-100 font-bold text-stone-600;
+    }
+
+    .truncated-title {
+        @apply font-bold text-sm text-ink truncate;
+    }
+
+    .responsive-card-heading {
+        @apply font-display font-bold text-base sm:text-lg text-ink;
+    }
+
+    .admin-view-tab {
+        @apply px-4 py-2 rounded-xl bg-white border border-stone-200 text-sm font-semibold;
+    }
+
+    .admin-view-tab.is-active {
+        @apply bg-sage-600 text-white border-sage-600;
+    }
+
+    .catalog-card {
+        @apply overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm;
+    }
+
+    .catalog-image {
+        @apply h-40 w-full object-cover;
+    }
+
+    .catalog-placeholder {
+        @apply flex items-center justify-center bg-sage-50 text-5xl;
+    }
+
+    .catalog-card-body {
+        @apply p-4;
+    }
+
+    .catalog-category {
+        @apply rounded-full bg-sage-50 px-2.5 py-1 text-xs font-bold text-sage-700;
+    }
+
+    .catalog-badge {
+        @apply rounded-full bg-peach-50 px-2.5 py-1 text-xs font-bold text-peach-600;
+    }
+
+    .catalog-action {
+        @apply flex-1 rounded-lg border border-stone-200 px-3 py-2 text-sm font-semibold hover:bg-stone-50;
+    }
+
+    .catalog-action-delete {
+        @apply border-red-200 text-red-600 hover:bg-red-50;
+    }
+
+    .catalog-empty {
+        @apply col-span-full rounded-2xl border border-dashed border-stone-300 bg-white p-10 text-center text-stone-500;
+    }
+}
+
+/* Custom smooth transitions & scrollbar */
+body {
+    background-color: #FAF7F4;
+    color: #232629;
+}
+
+.tab-active {
+    background-color: #3C614F;
+    color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(60, 97, 79, 0.22);
+}
+
+.nav-tab {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 0.75rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.25rem;
+    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-tab:not(.tab-active) {
+    color: #57534e;
+}
+
+.nav-tab:not(.tab-active):hover {
+    color: #232629;
+}
+
+.m-nav-tab {
+    flex: 1 1 0%;
+    white-space: nowrap;
+    border-radius: 0.75rem;
+    padding: 0.5rem 0.875rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1rem;
+    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.m-nav-tab:not(.tab-active) {
+    background-color: #f5f5f4;
+    color: #57534e;
+}
+
+.card-hover {
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px -8px rgba(35, 38, 41, 0.12);
+}
+
+/* Hide scrollbar for horizontal category pills on mobile */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
